@@ -73,3 +73,28 @@ def publish_times(n: int, day: date, slots: list[str], tz: ZoneInfo, now: dateti
         last = first + timedelta(hours=12)
     step = (last - first) / (n - 1)
     return [first + step * i for i in range(n)]
+
+
+def window_bounds(local_now: datetime, start: str, end: str) -> tuple[datetime, datetime] | None:
+    """Janela de postagem que contém local_now, ou None se estiver fora.
+    Aceita janelas que passam da meia-noite (ex.: 09:00 → 01:00)."""
+    s, e = parse_slots([start])[0], parse_slots([end])[0]
+    tz = local_now.tzinfo
+    today = local_now.date()
+    candidates_ = []
+    for day in (today - timedelta(days=1), today):
+        ws = datetime.combine(day, s, tzinfo=tz)
+        we = datetime.combine(day if e > s else day + timedelta(days=1), e, tzinfo=tz)
+        candidates_.append((ws, we))
+    for ws, we in candidates_:
+        if ws <= local_now < we:
+            return ws, we
+    return None
+
+
+def realtime_gap(now: datetime, window_end: datetime, capacity: int, min_gap_minutes: float) -> timedelta:
+    """Intervalo entre uploads para a cota que sobrou durar até o fim da janela."""
+    if capacity <= 0:
+        return timedelta.max
+    spread = (window_end - now) / capacity
+    return max(spread, timedelta(minutes=min_gap_minutes))

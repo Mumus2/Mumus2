@@ -224,3 +224,33 @@ def test_youtube_quota_error_is_explained(tmp_path):
     yt = YouTube("id", "s", token, http=httpx.Client(transport=httpx.MockTransport(handler)))
     with pytest.raises(Exception, match="quotaExceeded"):
         yt.upload(tmp_path / "v.mp4", {})
+
+
+def test_youtube_branding_update(tmp_path):
+    token = tmp_path / "tok.json"
+    token.write_text(json.dumps({"refresh_token": "r"}))
+    banner = tmp_path / "b.png"
+    banner.write_bytes(b"png")
+    sent = {}
+
+    def handler(req: httpx.Request) -> httpx.Response:
+        if req.url.host == "oauth2.googleapis.com":
+            return httpx.Response(200, json={"access_token": "a", "expires_in": 3600})
+        if "channelBanners" in req.url.path:
+            assert req.headers["Content-Type"] == "image/png" and req.content == b"png"
+            return httpx.Response(200, json={"url": "https://banner/1"})
+        if req.method == "GET":
+            return httpx.Response(200, json={"items": [{"id": "UC1", "brandingSettings": {
+                "channel": {"title": "Velho", "unsubscribedTrailer": "vid"}}}]})
+        sent.update(json.loads(req.content))
+        return httpx.Response(200, json=sent)
+
+    yt = YouTube("id", "s", token, http=httpx.Client(transport=httpx.MockTransport(handler)))
+    url = yt.upload_banner(banner)
+    yt.update_branding("Descrição <nova>", ["GTA 6", "cortes"], url)
+    ch = sent["brandingSettings"]["channel"]
+    assert sent["id"] == "UC1"
+    assert ch["title"] == "Velho" and ch["unsubscribedTrailer"] == "vid"   # preserva o que já existia
+    assert ch["keywords"] == '"GTA 6" cortes' and ch["country"] == "BR"
+    assert ch["description"] == "Descrição nova"
+    assert sent["brandingSettings"]["image"] == {"bannerExternalUrl": "https://banner/1"}

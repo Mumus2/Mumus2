@@ -25,7 +25,9 @@ AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 UPLOAD_URL = "https://www.googleapis.com/upload/youtube/v3/videos"
 API = "https://www.googleapis.com/youtube/v3"
-SCOPES = "https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube.readonly"
+# youtube.upload: enviar vídeos · youtube: editar descrição/banner do canal (comando `brand`)
+SCOPES = "https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube"
+BANNER_URL = "https://www.googleapis.com/upload/youtube/v3/channelBanners/insert"
 CHUNK = 8 * 1024 * 1024
 
 
@@ -172,6 +174,41 @@ class YouTube:
         r.raise_for_status()
         items = r.json().get("items", [])
         return items[0] if items else {}
+
+    def upload_banner(self, path: Path) -> str:
+        """Envia a imagem do banner (2560x1440, até 6 MB) e devolve a URL temporária dela."""
+        r = self.http.post(BANNER_URL, params={"uploadType": "media"},
+                           headers={"Authorization": f"Bearer {self._token()}", "Content-Type": "image/png"},
+                           content=path.read_bytes())
+        if r.status_code != 200:
+            raise YouTubeError(_explain(r))
+        return r.json()["url"]
+
+    def update_branding(self, description: str, keywords: list[str], banner_url: str | None = None,
+                        country: str = "BR", language: str = "pt") -> dict:
+        """Atualiza descrição, palavras-chave, país, idioma e (opcional) banner do canal.
+        Nome e foto de perfil a API não deixa mudar: isso é feito no YouTube Studio."""
+        auth = {"Authorization": f"Bearer {self._token()}"}
+        r = self.http.get(f"{API}/channels", params={"part": "brandingSettings", "mine": "true"}, headers=auth)
+        r.raise_for_status()
+        items = r.json().get("items", [])
+        if not items:
+            raise YouTubeError("Esta conta Google ainda não tem canal no YouTube")
+        ch = items[0]
+        channel = dict(ch.get("brandingSettings", {}).get("channel", {}))
+        channel.update(
+            description=description.replace("<", "").replace(">", "")[:1000],  # YouTube recusa < >
+            keywords=" ".join(f'"{k}"' if " " in k else k for k in keywords)[:500],
+            country=country,
+            defaultLanguage=language,
+        )
+        body: dict = {"id": ch["id"], "brandingSettings": {"channel": channel}}
+        if banner_url:
+            body["brandingSettings"]["image"] = {"bannerExternalUrl": banner_url}
+        r = self.http.put(f"{API}/channels", params={"part": "brandingSettings"}, headers=auth, json=body)
+        if r.status_code != 200:
+            raise YouTubeError(_explain(r))
+        return r.json()
 
     def upload(self, path: Path, metadata: dict) -> str:
         size = path.stat().st_size

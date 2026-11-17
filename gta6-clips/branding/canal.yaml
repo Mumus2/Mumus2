@@ -1,0 +1,30 @@
+# Identidade do canal. `python -m clipador brand` aplica descrição, palavras-chave e banner.
+# Nome, @ e foto de perfil você coloca no YouTube Studio (a API não permite).
+nome: "Clipou! • Cortes de GTA 6"
+handle: "@ClipouBR"
+banner: banner.png
+descricao: |
+  ⚡ CLIPOU! — os melhores momentos de GTA 6 das lives dos maiores streamers do Brasil, todo dia.
+
+  As fugas, os golpes, os bugs e as risadas de quem tá jogando GTA 6 ao vivo na Twitch: cortados, editados e com crédito pra cada streamer.
+
+  🎬 Shorts novos o dia todo, logo depois que acontece
+  📼 Compilação diária com o melhor de todo mundo
+  🎮 Todo corte tem o link do streamer: vai lá e segue!
+
+  É streamer e quer seus cortes aqui (ou quer tirar algum)? Manda e-mail: COLOQUE-SEU-EMAIL-DE-CONTATO
+
+  #GTA6 #GTAVI #Cortes
+palavras_chave:
+  - GTA 6
+  - GTA VI
+  - GTA 6 Brasil
+  - cortes
+  - cortes de live
+  - melhores momentos
+  - GTA RP
+  - streamers
+  - twitch
+  - clips
+  - shorts
+  - Clipou

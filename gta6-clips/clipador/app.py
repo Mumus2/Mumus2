@@ -61,9 +61,19 @@ class Clipador:
         harvest_moments(self.db, self.tw, self.cfg)
         self.media.process_pending()
 
+    @property
+    def realtime(self) -> bool:
+        return self.cfg["youtube"].get("mode", "daily") == "realtime"
+
     def job_daily(self, dry_run: bool = False) -> list[str]:
+        """Modo daily: compilação + plano agendado. Modo realtime: só a compilação."""
         from .publisher import run_daily
-        return run_daily(self.db, self.cfg, self.youtube(), self.media, dry_run=dry_run)
+        return run_daily(self.db, self.cfg, self.youtube(), self.media, dry_run=dry_run,
+                         with_plan=not self.realtime)
+
+    def job_realtime(self) -> str | None:
+        from .publisher import post_realtime
+        return post_realtime(self.db, self.cfg, self.youtube())
 
     def run_job(self, name: str) -> None:
         """Usado pelo painel ("rodar agora")."""
@@ -100,6 +110,22 @@ class Clipador:
             await chat.set_channels({r["login"] for r in self.db.tracked_streamers()})
             await asyncio.sleep(60)
 
+    async def _harvest_loop(self) -> None:
+        """Com streamer ao vivo, coleta a cada poucos minutos; senão, de tempos em tempos."""
+        h = self.cfg["harvest"]
+        await asyncio.sleep(120)
+        while True:
+            await asyncio.to_thread(self.run_job, "harvest")
+            if self.realtime:
+                await asyncio.to_thread(self.run_job, "realtime")
+            minutes = h["live_interval_minutes"] if (self.live_gta and self.realtime) else h["interval_minutes"]
+            await asyncio.sleep(minutes * 60)
+
+    async def _realtime_loop(self) -> None:
+        while True:
+            await asyncio.sleep(120)
+            await asyncio.to_thread(self.run_job, "realtime")
+
     async def _hype_loop(self) -> None:
         while True:
             for m in self.detector.tick(time.time()):
@@ -130,9 +156,12 @@ class Clipador:
             self._hype_loop(),
             self._every(self.cfg["discovery"]["interval_minutes"] * 60, "discover",
                         first_delay=self.cfg["discovery"]["interval_minutes"] * 60),
-            self._every(self.cfg["harvest"]["interval_minutes"] * 60, "harvest", first_delay=120),
+            self._harvest_loop(),
             self._daily_loop(),
         ]
+        if self.realtime:
+            tasks.append(self._realtime_loop())
+            log.info("Modo TEMPO REAL: clipes são publicados assim que ficam prontos")
         if with_web:
             import uvicorn
             from .web import create_app

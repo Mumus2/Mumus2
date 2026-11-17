@@ -9,7 +9,7 @@ import logging
 import random
 import ssl
 import time
-from typing import Awaitable, Callable
+from typing import Callable
 
 log = logging.getLogger(__name__)
 

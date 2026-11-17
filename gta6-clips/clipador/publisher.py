@@ -11,15 +11,17 @@ from .config import Config
 from .db import DB, RENDERED, SCHEDULED, iso, parse_iso, utcnow
 from .media import MediaWorker
 from .metadata import make_description, make_tags, make_title
-from .planner import Candidate, pick_clips, publish_times, quota_capacity, quota_day_start
+from .planner import (Candidate, pick_clips, publish_times, quota_capacity, quota_day_start,
+                      realtime_gap, window_bounds)
 from .youtube import YouTube, build_metadata
 
 log = logging.getLogger(__name__)
 
 
-def candidates(db: DB, cfg: Config, max_age_days: int = 4) -> list[Candidate]:
+def candidates(db: DB, cfg: Config, max_age: timedelta = timedelta(days=4),
+               now: datetime | None = None) -> list[Candidate]:
     yc = cfg["youtube"]
-    since = iso(utcnow() - timedelta(days=max_age_days))
+    since = iso((now or utcnow()) - max_age)
     sql = (
         "SELECT c.id, c.login, c.score, s.priority, s.authorized, "
         "(SELECT COUNT(*) FROM uploads u JOIN clips c2 ON c2.id=u.clip_id WHERE c2.login=c.login) AS ups "
@@ -36,13 +38,18 @@ def candidates(db: DB, cfg: Config, max_age_days: int = 4) -> list[Candidate]:
     return out
 
 
-def uploaded_today_logins(db: DB, cfg: Config, now: datetime) -> set[str]:
+def uploads_today_by_login(db: DB, cfg: Config, now: datetime) -> dict[str, int]:
     day_start = datetime.combine(now.astimezone(cfg.tz).date(), datetime.min.time(), tzinfo=cfg.tz)
     rows = db.query(
-        "SELECT DISTINCT c.login FROM uploads u JOIN clips c ON c.id=u.clip_id WHERE u.uploaded_at >= ?",
+        "SELECT c.login, COUNT(*) AS n FROM uploads u JOIN clips c ON c.id=u.clip_id "
+        "WHERE u.uploaded_at >= ? GROUP BY c.login",
         (iso(day_start),),
     )
-    return {r["login"] for r in rows}
+    return {r["login"]: r["n"] for r in rows}
+
+
+def uploaded_today_logins(db: DB, cfg: Config, now: datetime) -> set[str]:
+    return set(uploads_today_by_login(db, cfg, now))
 
 
 def build_video_meta(db: DB, cfg: Config, clip, publish_at: datetime | None) -> dict:
@@ -80,7 +87,64 @@ def plan_today(db: DB, cfg: Config, now: datetime | None = None, capacity: int |
     return [(db.one("SELECT * FROM clips WHERE id=?", (c.clip_id,)), t) for c, t in zip(chosen, times)]
 
 
-def run_daily(db: DB, cfg: Config, yt: YouTube, media: MediaWorker, dry_run: bool = False) -> list[str]:
+def upload_clip(db: DB, cfg: Config, yt: YouTube, clip, when: datetime | None,
+                now: datetime | None = None) -> str:
+    """Envia um clipe (agendado se `when` estiver no futuro) e registra no banco."""
+    meta = build_video_meta(db, cfg, clip, when)
+    vid = yt.upload(Path(clip["vertical_path"]), meta)
+    now = now or utcnow()
+    publish = when or now
+    db.update_clip(clip["id"], status=SCHEDULED, youtube_id=vid, publish_at=iso(publish), error=None)
+    db.execute(
+        "INSERT INTO uploads (clip_id, kind, youtube_id, title, publish_at, quota_cost, uploaded_at) "
+        "VALUES (?,?,?,?,?,?,?)",
+        (clip["id"], "short", vid, meta["snippet"]["title"], iso(publish), cfg["youtube"]["upload_cost"], iso(now)),
+    )
+    return vid
+
+
+def post_realtime(db: DB, cfg: Config, yt: YouTube, now: datetime | None = None) -> str | None:
+    """Modo tempo real: publica JÁ o melhor clipe recente, se a cota e o ritmo permitirem.
+
+    Chame a cada ~2 min. A cota restante é espalhada até o fim da janela de postagem,
+    para não gastar tudo nos primeiros clipes do dia."""
+    now = now or utcnow()
+    yc, rt = cfg["youtube"], cfg["youtube"]["realtime"]
+    bounds = window_bounds(now.astimezone(cfg.tz), rt["window"][0], rt["window"][1])
+    if not bounds:
+        return None
+    used = db.quota_used_today(quota_day_start(now))
+    cap = quota_capacity(yc["daily_quota"], used, yc["upload_cost"], yc["quota_reserve"])
+    comp_pending = yc["compilation"]["enabled"] and not db.get_meta(f"compilation:{now.astimezone(cfg.tz).date()}")
+    cap -= int(comp_pending)          # guarda 1 upload para a compilação do dia
+    if cap <= 0:
+        return None
+    last = db.one("SELECT MAX(uploaded_at) AS t FROM uploads WHERE quota_cost > 0")
+    if last and last["t"] and now - parse_iso(last["t"]) < realtime_gap(now, bounds[1], cap, rt["min_gap_minutes"]):
+        return None
+    today = uploads_today_by_login(db, cfg, now)
+    cands = [
+        c for c in candidates(db, cfg, timedelta(hours=rt["max_clip_age_hours"]), now)
+        if today.get(c.login, 0) < rt["max_per_streamer_per_day"] and c.score >= rt["min_score"]
+    ]
+    for c in cands:  # rodízio: quem postou menos HOJE vem primeiro
+        c.uploads_so_far = today.get(c.login, 0) * 10_000 + c.uploads_so_far
+    chosen = pick_clips(cands, 1)
+    if not chosen:
+        return None
+    clip = db.one("SELECT * FROM clips WHERE id=?", (chosen[0].clip_id,))
+    try:
+        vid = upload_clip(db, cfg, yt, clip, None, now)
+    except Exception as e:
+        log.error("Upload em tempo real do clipe #%s falhou: %s", clip["id"], e)
+        db.update_clip(clip["id"], error=str(e)[:1000])
+        return None
+    log.info("⚡ Publicado agora: #%s %s → https://youtu.be/%s", clip["id"], clip["login"], vid)
+    return vid
+
+
+def run_daily(db: DB, cfg: Config, yt: YouTube, media: MediaWorker, dry_run: bool = False,
+              with_plan: bool = True) -> list[str]:
     yc = cfg["youtube"]
     now = utcnow()
     used = db.quota_used_today(quota_day_start(now))
@@ -97,26 +161,18 @@ def run_daily(db: DB, cfg: Config, yt: YouTube, media: MediaWorker, dry_run: boo
             if not dry_run:
                 db.set_meta(comp_key, vid)
 
-    for clip, when in plan_today(db, cfg, now, capacity):
+    for clip, when in (plan_today(db, cfg, now, capacity) if with_plan else []):
         meta = build_video_meta(db, cfg, clip, when)
         log.info("Upload #%s %s → %s às %s", clip["id"], clip["login"], meta["snippet"]["title"], when)
         if dry_run:
             continue
         try:
-            vid = yt.upload(Path(clip["vertical_path"]), meta)
+            ids.append(upload_clip(db, cfg, yt, clip, when, now))
         except Exception as e:
             log.error("Upload do clipe #%s falhou: %s", clip["id"], e)
             db.update_clip(clip["id"], error=str(e)[:1000])
             if "quotaExceeded" in str(e) or "uploadLimitExceeded" in str(e):
                 break
-            continue
-        db.update_clip(clip["id"], status=SCHEDULED, youtube_id=vid, publish_at=iso(when), error=None)
-        db.execute(
-            "INSERT INTO uploads (clip_id, kind, youtube_id, title, publish_at, quota_cost, uploaded_at) "
-            "VALUES (?,?,?,?,?,?,?)",
-            (clip["id"], "short", vid, meta["snippet"]["title"], iso(when), yc["upload_cost"], iso(utcnow())),
-        )
-        ids.append(vid)
     return ids
 
 

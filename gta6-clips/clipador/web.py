@@ -139,7 +139,7 @@ def create_app(app_state) -> FastAPI:
 
     @api.post("/acao/{name}")
     def action(name: str):
-        if name not in {"discover", "harvest", "daily"}:
+        if name not in {"discover", "harvest", "daily", "realtime"}:
             raise HTTPException(404)
         threading.Thread(target=app_state.run_job, args=(name,), daemon=True).start()
         return RedirectResponse("/", status_code=303)

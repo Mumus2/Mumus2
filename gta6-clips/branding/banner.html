@@ -1,0 +1,62 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_common.css">
+<style>
+  body { width:2560px; height:1440px; position:relative;
+         background: linear-gradient(180deg, #12051f 0%, #3b0a4f 34%, #a1135e 56%, #ff4f6d 68%, #ff9a3c 76%, #12051f 76.2%); }
+  .sun { position:absolute; left:50%; top:470px; width:760px; height:760px; margin-left:-380px; border-radius:50%;
+         background: linear-gradient(180deg, #ffd166 0%, #ff9a3c 45%, #ff2e88 100%);
+         -webkit-mask: repeating-linear-gradient(180deg, #000 0 46px, transparent 46px 60px);
+         mask: repeating-linear-gradient(180deg, #000 0 46px, transparent 46px 60px); opacity:.9; }
+  .grid { position:absolute; left:-20%; right:-20%; top:1097px; bottom:-200px; transform-origin:top; transform:perspective(420px) rotateX(62deg);
+          background-image: linear-gradient(rgba(255,46,136,.75) 3px, transparent 3px), linear-gradient(90deg, rgba(255,46,136,.75) 3px, transparent 3px);
+          background-size: 120px 90px; }
+  .glow { position:absolute; left:0; right:0; top:1080px; height:40px; background:linear-gradient(180deg, rgba(255,154,60,.0), rgba(255,46,136,.7), rgba(255,46,136,0)); }
+  svg.palm { position:absolute; bottom:300px; fill:#0a0212; }
+  .safe { position:absolute; left:507px; top:508px; width:1546px; height:423px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+  .word { font-size:250px; line-height:.95; }
+  .sub { font-family:Bebas, sans-serif; font-size:66px; letter-spacing:.08em; color:#fff; margin-top:18px; text-shadow:0 4px 18px rgba(0,0,0,.6); }
+  .tag { margin-top:14px; font-family:Bebas, sans-serif; font-size:44px; letter-spacing:.14em; color:var(--night);
+         background:var(--sun); padding:4px 26px 0; transform:skewX(-8deg); }
+  .stars { position:absolute; inset:0 0 60% 0; background-image:
+      radial-gradient(2px 2px at 10% 20%, #fff8, transparent), radial-gradient(2px 2px at 30% 8%, #fff6, transparent),
+      radial-gradient(3px 3px at 70% 14%, #fff7, transparent), radial-gradient(2px 2px at 85% 30%, #fff5, transparent),
+      radial-gradient(2px 2px at 55% 5%, #fff6, transparent), radial-gradient(2px 2px at 20% 40%, #fff4, transparent); }
+</style></head><body>
+<div class="stars"></div>
+<div class="sun"></div>
+<div class="glow"></div>
+<div class="grid"></div>
+<!-- palmeiras (silhuetas desenhadas à mão, sem logos de terceiros) -->
+<svg class="palm" style="left:150px" width="520" height="900" viewBox="0 0 520 900">
+  <path d="M250 900 C 262 700, 300 450, 290 230 L 312 232 C 326 450, 286 700, 282 900 Z"/>
+  <path d="M298 236 C 220 150, 120 140, 20 200 C 120 170, 210 190, 292 250 Z"/>
+  <path d="M298 236 C 250 110, 170 50, 60 40 C 160 80, 230 140, 288 246 Z"/>
+  <path d="M302 236 C 330 110, 400 50, 500 40 C 410 90, 350 150, 312 246 Z"/>
+  <path d="M302 236 C 390 160, 470 170, 520 250 C 450 200, 380 200, 310 252 Z"/>
+  <path d="M300 238 C 300 120, 290 60, 250 0 C 300 60, 320 130, 308 244 Z"/>
+  <path d="M296 240 C 230 230, 150 290, 110 380 C 170 300, 230 270, 300 256 Z"/>
+  <path d="M304 240 C 380 240, 440 300, 470 390 C 420 310, 370 280, 306 258 Z"/>
+</svg>
+<svg class="palm" style="left:520px;bottom:300px" width="300" height="560" viewBox="0 0 520 900">
+  <path d="M250 900 C 262 700, 300 450, 290 230 L 312 232 C 326 450, 286 700, 282 900 Z"/>
+  <path d="M298 236 C 220 150, 120 140, 20 200 C 120 170, 210 190, 292 250 Z"/>
+  <path d="M298 236 C 250 110, 170 50, 60 40 C 160 80, 230 140, 288 246 Z"/>
+  <path d="M302 236 C 330 110, 400 50, 500 40 C 410 90, 350 150, 312 246 Z"/>
+  <path d="M302 236 C 390 160, 470 170, 520 250 C 450 200, 380 200, 310 252 Z"/>
+  <path d="M296 240 C 230 230, 150 290, 110 380 C 170 300, 230 270, 300 256 Z"/>
+</svg>
+<svg class="palm" style="right:140px;transform:scaleX(-1)" width="560" height="980" viewBox="0 0 520 900">
+  <path d="M250 900 C 262 700, 300 450, 290 230 L 312 232 C 326 450, 286 700, 282 900 Z"/>
+  <path d="M298 236 C 220 150, 120 140, 20 200 C 120 170, 210 190, 292 250 Z"/>
+  <path d="M298 236 C 250 110, 170 50, 60 40 C 160 80, 230 140, 288 246 Z"/>
+  <path d="M302 236 C 330 110, 400 50, 500 40 C 410 90, 350 150, 312 246 Z"/>
+  <path d="M302 236 C 390 160, 470 170, 520 250 C 450 200, 380 200, 310 252 Z"/>
+  <path d="M300 238 C 300 120, 290 60, 250 0 C 300 60, 320 130, 308 244 Z"/>
+  <path d="M296 240 C 230 230, 150 290, 110 380 C 170 300, 230 270, 300 256 Z"/>
+  <path d="M304 240 C 380 240, 440 300, 470 390 C 420 310, 370 280, 306 258 Z"/>
+</svg>
+<div class="safe">
+  <div class="word">CLIPOU!</div>
+  <div class="sub">OS MELHORES MOMENTOS DE GTA 6 DOS STREAMERS DO BRASIL</div>
+  <div class="tag">CORTES NOVOS TODO DIA</div>
+</div>
+</body></html>

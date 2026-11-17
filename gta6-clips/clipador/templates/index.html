@@ -9,7 +9,8 @@
     <div class="actions" style="margin-top:6px">
       <form method="post" action="/acao/discover"><button>Descobrir</button></form>
       <form method="post" action="/acao/harvest"><button>Coletar clipes</button></form>
-      <form method="post" action="/acao/daily"><button class="primary">Postar</button></form>
+      <form method="post" action="/acao/realtime"><button class="primary">⚡ Postar 1 agora</button></form>
+      <form method="post" action="/acao/daily"><button>Rodada diária</button></form>
     </div>
     {% if busy %}<small class="muted">rodando: {{ busy|join(', ') }}</small>{% endif %}
   </div>

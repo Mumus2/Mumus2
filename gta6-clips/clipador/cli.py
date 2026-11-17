@@ -99,6 +99,24 @@ def cmd_youtube_auth(args) -> int:
     return 0
 
 
+def cmd_brand(args) -> int:
+    """Aplica a identidade do canal (branding/canal.yaml) via API."""
+    import yaml
+    from pathlib import Path
+    app = _app(args)
+    brand_dir = app.cfg.root / "branding"
+    data = yaml.safe_load((brand_dir / "canal.yaml").read_text(encoding="utf-8"))
+    yt = app.youtube()
+    banner_url = None if args.no_banner else yt.upload_banner(brand_dir / data.get("banner", "banner.png"))
+    yt.update_branding(data["descricao"], data["palavras_chave"], banner_url)
+    print("✅ Descrição, palavras-chave, país e" + (" banner" if banner_url else "") + " aplicados.")
+    print("Falta fazer à mão no YouTube Studio (a API não permite):")
+    print(f"  • Nome do canal: {data['nome']}   • Identificador: {data['handle']}")
+    print(f"  • Foto de perfil: {Path(brand_dir / 'avatar.png')}")
+    print(f"  • Marca d'água dos vídeos: {Path(brand_dir / 'watermark.png')}")
+    return 0
+
+
 def cmd_web(args) -> int:
     import uvicorn
     from .web import create_app
@@ -136,6 +154,9 @@ def main(argv: list[str] | None = None) -> int:
     sa.add_argument("--manual", action="store_true", help="servidor sem navegador: colar a URL de retorno")
     sa.add_argument("--port", type=int, default=8765)
     sa.set_defaults(fn=cmd_youtube_auth)
+    sb = sub.add_parser("brand", help="aplica descrição, palavras-chave e banner no canal")
+    sb.add_argument("--no-banner", action="store_true")
+    sb.set_defaults(fn=cmd_brand)
     sub.add_parser("web", help="só o painel web").set_defaults(fn=cmd_web)
     sr = sub.add_parser("run", help="roda TUDO 24h (robô + painel)")
     sr.add_argument("--no-web", action="store_true")

@@ -5,6 +5,12 @@ encontra os melhores momentos, edita cada clipe no formato **YouTube Shorts (9:1
 streamer e **posta no seu canal todo dia, de forma automática e agendada**. Um painel web mostra os
 clipes **separados por streamer**, onde você aprova, rejeita ou troca o título.
 
+**Modo tempo real (padrão):** cada clipe é publicado no YouTube assim que fica pronto, alguns
+minutos depois do lance acontecer na live. O robô espalha a cota da API ao longo do dia para não
+gastar tudo de manhã. **Identidade do canal pronta** (nome, descrição, banner, foto e marca
+d'água) em [`branding/`](branding/README.md), junto com o passo a passo para criar o canal e
+deixá-lo apto à monetização.
+
 ```
  Twitch API ──► descoberta (top 30 PT-BR em GTA VI, a cada 15 min)
                      │
@@ -89,6 +95,7 @@ python -m clipador check
 | `python -m clipador post --dry-run` | Simula a rodada de postagem (sem enviar) |
 | `python -m clipador post` | Faz a rodada de uploads agora |
 | `python -m clipador export` | Gera `data/export/AAAA-MM-DD/` com vídeos + `postagens.txt` para postar à mão |
+| `python -m clipador brand` | Aplica descrição, palavras-chave e banner do canal (`branding/canal.yaml`) |
 | `python -m clipador web` | Só o painel |
 
 ### Rodando 24h num servidor (recomendado)
@@ -105,10 +112,16 @@ expor o painel.
 
 ### Rotina do dia do lançamento
 1. Deixe `python -m clipador run` ligado desde antes do lançamento.
-2. Ao longo do dia, abra o painel, veja os clipes de cada streamer, rejeite os ruins e edite títulos.
-3. Às 08:30 e 15:30 (configurável) o robô monta o plano e envia os vídeos **agendados** para os
-   horários de `publish_slots`. Enquanto a API estiver travada, rode `python -m clipador export`
-   e agende os vídeos da pasta no YouTube Studio.
+2. **Modo tempo real** (`youtube.mode: realtime`): com streamers ao vivo, o robô procura clipes
+   novos a cada 5 min, edita e publica o melhor clipe recente na hora. Ele respeita a cota, o
+   intervalo entre uploads e o limite de 1 vídeo por streamer por dia (`youtube.realtime`).
+   A compilação diária sai no horário de `daily_run_time`.
+3. Ao longo do dia, abra o painel e rejeite clipes ruins antes que subam. Se quiser aprovar tudo
+   à mão, use `auto_approve: false`. O botão "⚡ Postar 1 agora" força uma publicação.
+4. Prefere agendar em horários fixos? Use `youtube.mode: daily`: às 08:30 e 15:30 o robô sobe
+   os vídeos **agendados** nos horários de `publish_slots`.
+5. Enquanto a API estiver travada (aviso 1 lá em cima), rode `python -m clipador export` e
+   poste os vídeos da pasta pelo YouTube Studio.
 
 ## Configuração (`config.yaml`)
 Os campos principais (todos comentados em `config.example.yaml`):
@@ -118,7 +131,9 @@ Os campos principais (todos comentados em `config.example.yaml`):
   da lista é completado automaticamente com as maiores lives PT-BR na categoria GTA VI.
 - `hype.z_threshold`: sensibilidade do detector (menor = mais clipes, mais ruído).
 - `hype.pre_roll_seconds`: quanto pegar **antes** da explosão do chat (o chat reage com atraso).
-- `youtube.publish_slots`, `youtube.daily_run_time`: horários de publicação e de rodada.
+- `youtube.mode`: `realtime` (publica assim que acontece) ou `daily` (agenda em horários fixos).
+- `youtube.realtime`: janela do dia em que pode postar, idade máxima do clipe, vídeos por streamer/dia.
+- `youtube.publish_slots`, `youtube.daily_run_time`: horários do modo daily e da compilação.
 - `youtube.auto_approve`: `false` = só posta o que você aprovar no painel.
 - `render.watermark`: o @ do seu canal no vídeo.
 
@@ -160,6 +175,7 @@ clipador/
   publisher.py   rodada diária e exportação manual
   web.py         painel (FastAPI) + templates/
   app.py         orquestrador 24h
+branding/        identidade do canal (banner, avatar, marca d'água, descrição) + guia
 ```
 
 ## Capturas do painel (dados de demonstração)

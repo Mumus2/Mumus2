@@ -28,6 +28,7 @@ hype:                      # detector de "momentos" pelo chat
 
 harvest:
   interval_minutes: 120
+  live_interval_minutes: 5          # com alguém ao vivo, procura clipes novos a cada 5 min
   lookback_hours: 26
   community_clips_per_streamer: 5   # melhores clipes feitos pelos viewers
   min_clip_views: 50
@@ -37,7 +38,7 @@ render:
   vertical: true           # 1080x1920 -> vira YouTube Shorts
   horizontal: false        # 1920x1080 (vídeo normal)
   font_file: /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
-  watermark: "@SeuCanalDeCortes"   # aparece no vídeo; deixe "" para não usar
+  watermark: "@ClipouBR"           # o @ do SEU canal; deixe "" para não usar
   crf: 21
   preset: veryfast
 
@@ -47,13 +48,23 @@ youtube:
   daily_quota: 10000
   upload_cost: 1600
   quota_reserve: 400       # sobra para outras chamadas
+  # realtime = posta cada clipe assim que ele fica pronto (espalhando a cota pelo dia)
+  # daily    = monta um plano e agenda os vídeos nos publish_slots
+  mode: realtime
+  realtime:
+    window: ["09:00", "01:00"]     # só posta nesse intervalo (pode passar da meia-noite)
+    max_clip_age_hours: 6          # "assim que acontecer": só clipes das últimas 6h
+    max_per_streamer_per_day: 1    # com mais cota, aumente (ex.: 3)
+    min_gap_minutes: 10            # intervalo mínimo entre dois uploads
+    min_score: 0                   # nota mínima do clipe (views/hype)
   privacy: public          # public | unlisted | private
   category_id: "20"        # 20 = Gaming
   made_for_kids: false
   # Horários de publicação (os vídeos sobem antes como "agendados")
   publish_slots: ["10:00", "12:00", "14:00", "16:00", "18:00", "19:30", "21:00", "22:30"]
   # Quando o robô monta o plano e faz os uploads (pode ter mais de um horário;
-  # cada streamer recebe no máximo 1 vídeo por dia, então rodar 2x só usa a cota que sobrou)
+  # cada streamer recebe no máximo 1 vídeo por dia, então rodar 2x só usa a cota que sobrou).
+  # No modo realtime, esse horário só gera a compilação diária.
   daily_run_time: ["08:30", "15:30"]
   auto_approve: true       # false = só sobe clipes que você aprovar no painel
   # Só posta canais marcados "authorized: true" no streamers.yaml.

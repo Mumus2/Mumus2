@@ -1,0 +1,7 @@
+@font-face { font-family: Anton; src: url(fonts/Anton-Regular.ttf); }
+@font-face { font-family: Bebas; src: url(fonts/BebasNeue-Regular.ttf); }
+:root { --night:#12051f; --plum:#3b0a4f; --pink:#ff2e88; --hot:#ff4f9a; --orange:#ff9a3c; --sun:#ffd166; --cyan:#22e1ff; }
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { overflow:hidden; background:var(--night); }
+.word { font-family:Anton, sans-serif; color:#fff; letter-spacing:.02em; transform:skewX(-8deg);
+        text-shadow: -0.04em 0.035em 0 var(--cyan), 0.045em -0.03em 0 var(--pink), 0 0 0.35em rgba(255,46,136,.55); }
