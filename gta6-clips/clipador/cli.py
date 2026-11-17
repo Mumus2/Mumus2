@@ -117,6 +117,16 @@ def cmd_brand(args) -> int:
     return 0
 
 
+def cmd_channel(args) -> int:
+    snap = _app(args).job_channel()
+    ch = snap.get("channel", {})
+    print(f"Canal: {ch.get('title', '?')}  ·  {ch.get('subscribers', 0)} inscritos  ·  {ch.get('views', 0)} views")
+    print(f"Monetização: {snap.get('monetization', {}).get('status', '?')}")
+    for name, err in snap.get("errors", {}).items():
+        print(f"  ⚠ {name}: {err}")
+    return 0
+
+
 def cmd_web(args) -> int:
     import uvicorn
     from .web import create_app
@@ -157,6 +167,7 @@ def main(argv: list[str] | None = None) -> int:
     sb = sub.add_parser("brand", help="aplica descrição, palavras-chave e banner no canal")
     sb.add_argument("--no-banner", action="store_true")
     sb.set_defaults(fn=cmd_brand)
+    sub.add_parser("canal", help="coleta agora os números do canal para o painel /canal").set_defaults(fn=cmd_channel)
     sub.add_parser("web", help="só o painel web").set_defaults(fn=cmd_web)
     sr = sub.add_parser("run", help="roda TUDO 24h (robô + painel)")
     sr.add_argument("--no-web", action="store_true")

@@ -77,6 +77,11 @@ youtube:
   hashtags: ["#gta6", "#gtavi", "#shorts"]
   tags: ["gta 6", "gta vi", "gta 6 brasil", "cortes", "clips twitch", "melhores momentos"]
 
+dashboard:                 # painel do canal em /canal
+  refresh_minutes: 60      # cada coleta gasta ~10 unidades da cota da Data API
+  max_videos: 200          # quantos vídeos recentes acompanhar
+  currency: BRL            # moeda da receita estimada
+
 web:
   host: 127.0.0.1
   port: 8080

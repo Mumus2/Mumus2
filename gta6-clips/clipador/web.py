@@ -8,7 +8,8 @@ from datetime import timezone
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, Form, HTTPException, Request
-from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.templating import Jinja2Templates
 
@@ -33,8 +34,8 @@ def create_app(app_state) -> FastAPI:
     cfg, db = app_state.cfg, app_state.db
     password = os.environ.get("DASHBOARD_PASSWORD", "")
 
-    def auth(creds: HTTPBasicCredentials | None = Depends(security)) -> None:
-        if not password:
+    def auth(request: Request, creds: HTTPBasicCredentials | None = Depends(security)) -> None:
+        if not password or request.url.path == "/api/saude":
             return
         ok = creds and secrets.compare_digest(creds.username, "admin") and secrets.compare_digest(
             creds.password, password
@@ -43,6 +44,7 @@ def create_app(app_state) -> FastAPI:
             raise HTTPException(401, headers={"WWW-Authenticate": "Basic"})
 
     api = FastAPI(title="Clipador GTA 6", dependencies=[Depends(auth)])
+    api.mount("/static", StaticFiles(directory=str(Path(__file__).parent / "static")), name="static")
 
     def local(ts: str | None) -> str:
         if not ts:
@@ -138,11 +140,32 @@ def create_app(app_state) -> FastAPI:
         return RedirectResponse(f"/s/{login}", status_code=303)
 
     @api.post("/acao/{name}")
-    def action(name: str):
-        if name not in {"discover", "harvest", "daily", "realtime"}:
+    def action(request: Request, name: str):
+        if name not in {"discover", "harvest", "daily", "realtime", "channel"}:
             raise HTTPException(404)
         threading.Thread(target=app_state.run_job, args=(name,), daemon=True).start()
-        return RedirectResponse("/", status_code=303)
+        if request.headers.get("accept", "").startswith("application/json"):
+            return JSONResponse({"ok": True, "job": name})
+        return RedirectResponse("/canal" if name == "channel" else "/", status_code=303)
+
+    # ---------- painel do canal ----------
+    @api.get("/canal", response_class=HTMLResponse)
+    def channel_page(request: Request):
+        return TEMPLATES.TemplateResponse(request, "canal.html", {})
+
+    @api.get("/api/canal")
+    def channel_data(dias: int = 28):
+        from .analytics import build_view
+        data = build_view(db, cfg, dias)
+        data["busy"] = sorted(app_state.busy)
+        return JSONResponse(data)
+
+    @api.get("/api/saude")
+    def health():
+        """Para o Docker/monitor saberem se o robô está de pé (não pede senha)."""
+        from .analytics import load_snapshot
+        snap = load_snapshot(db) or {}
+        return {"ok": True, "canal_atualizado_em": snap.get("fetched_at"), "jobs_rodando": sorted(app_state.busy)}
 
     @api.get("/media/{clip_id}/{kind}")
     def media(clip_id: int, kind: str):

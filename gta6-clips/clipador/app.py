@@ -71,6 +71,11 @@ class Clipador:
         return run_daily(self.db, self.cfg, self.youtube(), self.media, dry_run=dry_run,
                          with_plan=not self.realtime)
 
+    def job_channel(self) -> dict:
+        """Coleta perfil, números, vídeos, analytics e receita do canal."""
+        from .analytics import collect
+        return collect(self.db, self.cfg, self.youtube())
+
     def job_realtime(self) -> str | None:
         from .publisher import post_realtime
         return post_realtime(self.db, self.cfg, self.youtube())
@@ -91,6 +96,21 @@ class Clipador:
     def on_chat(self, channel: str, ts: float, text: str) -> None:
         if channel in self.live_gta:
             self.detector.feed(channel, ts, text)
+
+    async def _supervise(self, name: str, factory) -> None:
+        """Mantém um loop vivo para sempre: se ele quebrar, registra e reinicia."""
+        delay = 5
+        while True:
+            try:
+                await factory()
+                return
+            except asyncio.CancelledError:
+                raise
+            except Exception:
+                log.exception("Loop %s caiu; reiniciando em %ss", name, delay)
+                self.db.set_meta(f"crash:{name}", datetime.now().isoformat())
+                await asyncio.sleep(delay)
+                delay = min(delay * 2, 300)
 
     async def _every(self, seconds: float, name: str, first_delay: float = 0) -> None:
         await asyncio.sleep(first_delay)
@@ -148,25 +168,31 @@ class Clipador:
             await asyncio.sleep(60)
 
     async def run(self, with_web: bool = True) -> None:
-        await asyncio.to_thread(self.job_discover)
+        try:
+            await asyncio.to_thread(self.job_discover)
+        except Exception:
+            log.exception("Descoberta inicial falhou (o loop tenta de novo)")
         chat = ChatReader(self.on_chat)
-        tasks = [
-            chat.run(),
-            self._live_loop(chat),
-            self._hype_loop(),
-            self._every(self.cfg["discovery"]["interval_minutes"] * 60, "discover",
-                        first_delay=self.cfg["discovery"]["interval_minutes"] * 60),
-            self._harvest_loop(),
-            self._daily_loop(),
-        ]
+        loops = {
+            "chat": chat.run,
+            "live": lambda: self._live_loop(chat),
+            "hype": self._hype_loop,
+            "discover": lambda: self._every(self.cfg["discovery"]["interval_minutes"] * 60, "discover",
+                                            first_delay=self.cfg["discovery"]["interval_minutes"] * 60),
+            "harvest": self._harvest_loop,
+            "daily": self._daily_loop,
+            "channel": lambda: self._every(self.cfg.raw.get("dashboard", {}).get("refresh_minutes", 60) * 60,
+                                           "channel", first_delay=10),
+        }
         if self.realtime:
-            tasks.append(self._realtime_loop())
+            loops["realtime"] = self._realtime_loop
             log.info("Modo TEMPO REAL: clipes são publicados assim que ficam prontos")
+        tasks = [self._supervise(name, fn) for name, fn in loops.items()]
         if with_web:
             import uvicorn
             from .web import create_app
             server = uvicorn.Server(uvicorn.Config(create_app(self), host=self.cfg.web_host,
                                                    port=self.cfg["web"]["port"], log_level="warning"))
             tasks.append(server.serve())
-            log.info("Painel em http://%s:%s", self.cfg.web_host, self.cfg["web"]["port"])
+            log.info("Painel em http://%s:%s  ·  canal em /canal", self.cfg.web_host, self.cfg["web"]["port"])
         await asyncio.gather(*tasks)

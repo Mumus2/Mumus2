@@ -96,7 +96,30 @@ python -m clipador check
 | `python -m clipador post` | Faz a rodada de uploads agora |
 | `python -m clipador export` | Gera `data/export/AAAA-MM-DD/` com vídeos + `postagens.txt` para postar à mão |
 | `python -m clipador brand` | Aplica descrição, palavras-chave e banner do canal (`branding/canal.yaml`) |
+| `python -m clipador canal` | Coleta agora os números do canal para o painel `/canal` |
 | `python -m clipador web` | Só o painel |
+
+### Painel do canal (`/canal`)
+Abra <http://127.0.0.1:8080/canal> com o robô rodando. A cada 60 min (`dashboard.refresh_minutes`)
+ele lê o canal no YouTube e mostra:
+- **Perfil**: foto, banner, nome, @, descrição, inscritos (o número em destaque) e status da monetização.
+- **Números do período** (7 / 28 / 90 dias / 12 meses), comparados com o período anterior:
+  visualizações, horas assistidas, saldo de inscritos, receita estimada, RPM, duração média e curtidas.
+- **Gráfico diário** interativo (passe o mouse ou use as setas do teclado) de views, horas,
+  inscritos ou receita, com botão para ver a tabela.
+- **Caminho para a monetização**: progresso até 1.000 inscritos + 4.000 h ou 10 mi de views em Shorts.
+  Quando a monetização estiver ativa, mostra receita, RPM e CPM.
+- **Desempenho por streamer**: quais streamers rendem mais views (cruza os cortes do robô com o YouTube).
+- Origem do tráfego, países, público (idade e gênero), dispositivos, Shorts × vídeos longos.
+- **Tabela de vídeos** com busca, filtro Shorts/longos e ordenação por coluna.
+- **Status do robô**: quem está ao vivo, clipes prontos, publicados hoje e cota da API.
+
+Os dados do YouTube Analytics chegam com ~48 h de atraso, como no YouTube Studio. Se algum
+relatório falhar, o resto do painel continua e um aviso explica o motivo. **Depois de atualizar, rode
+`python -m clipador youtube-auth` de novo**: o painel precisa de duas permissões novas (Analytics
+e receita). `python -m clipador canal` faz uma coleta na hora e mostra o resumo no terminal.
+
+![Painel do canal (dados de demonstração)](docs/canal.png)
 
 ### Rodando 24h num servidor (recomendado)
 O robô precisa ficar ligado durante as lives (ele "ouve" o chat em tempo real). Uma VPS simples
@@ -107,7 +130,9 @@ docker compose up -d --build
 docker compose logs -f
 # painel: ssh -L 8080:127.0.0.1:8080 usuario@servidor  →  abra http://127.0.0.1:8080
 ```
-Sem Docker, use o `clipador.service` (systemd). Defina `DASHBOARD_PASSWORD` no `.env` se for
+O Docker reinicia o robô sozinho se ele cair, e verifica a saúde dele a cada minuto em
+`/api/saude`. Dentro do robô, cada tarefa (chat, coleta, postagem, painel) também é reiniciada
+sozinha se der erro, sem derrubar as outras. Sem Docker, use o `clipador.service` (systemd). Defina `DASHBOARD_PASSWORD` no `.env` se for
 expor o painel.
 
 ### Rotina do dia do lançamento

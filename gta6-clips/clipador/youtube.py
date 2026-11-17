@@ -26,7 +26,13 @@ TOKEN_URL = "https://oauth2.googleapis.com/token"
 UPLOAD_URL = "https://www.googleapis.com/upload/youtube/v3/videos"
 API = "https://www.googleapis.com/youtube/v3"
 # youtube.upload: enviar vídeos · youtube: editar descrição/banner do canal (comando `brand`)
-SCOPES = "https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube"
+# yt-analytics(.monetary): números do canal e receita para o painel /canal
+SCOPES = " ".join([
+    "https://www.googleapis.com/auth/youtube.upload",
+    "https://www.googleapis.com/auth/youtube",
+    "https://www.googleapis.com/auth/yt-analytics.readonly",
+    "https://www.googleapis.com/auth/yt-analytics-monetary.readonly",
+])
 BANNER_URL = "https://www.googleapis.com/upload/youtube/v3/channelBanners/insert"
 CHUNK = 8 * 1024 * 1024
 
