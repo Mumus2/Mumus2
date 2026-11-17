@@ -67,7 +67,7 @@ cp .env.example .env
 
 ### 2. Credenciais do YouTube (15 min)
 1. <https://console.cloud.google.com/> → crie um projeto.
-2. **APIs e serviços → Biblioteca** → ative **YouTube Data API v3**.
+2. **APIs e serviços → Biblioteca** → ative a **YouTube Data API v3** e a **YouTube Analytics API** (esta é a do painel `/canal`).
 3. **Tela de consentimento OAuth**: tipo *Externo*, preencha nome/e-mail, adicione o escopo
    `youtube.upload`, e em **Status de publicação** clique em **"Publicar app" (Em produção)**.
    *Se deixar em "Teste", o token expira a cada 7 dias e o robô para de postar.*
