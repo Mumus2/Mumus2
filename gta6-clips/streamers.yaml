@@ -1,0 +1,28 @@
+# Lista-semente de canais BR.  O robô valida cada login na API da Twitch
+# (logins inexistentes são ignorados com aviso) e completa até 30 canais com
+# os maiores streamers AO VIVO em GTA VI em português (descoberta automática).
+#
+# CONFIRA os logins: canais mudam de nome.  Campos:
+#   login       nome do canal na URL (twitch.tv/<login>)
+#   pinned      true = sempre acompanhado, mesmo se não estiver no top 30
+#   authorized  true = o streamer autorizou cortes/monetização (ver README)
+#   priority    número maior = aparece mais vezes na fila de postagem
+streamers:
+  - {login: gaules,         pinned: true, authorized: false, priority: 1}
+  - {login: casimito,       pinned: true, authorized: false, priority: 1}
+  - {login: alanzoka,       pinned: true, authorized: false, priority: 1}
+  - {login: loud_coringa,   pinned: true, authorized: false, priority: 1}
+  - {login: cellbit,        pinned: true, authorized: false, priority: 1}
+  - {login: baiano,         pinned: true, authorized: false, priority: 1}
+  - {login: jukes,          pinned: true, authorized: false, priority: 1}
+  - {login: felps,          pinned: true, authorized: false, priority: 1}
+  - {login: paulinholokobr, pinned: true, authorized: false, priority: 1}
+  - {login: piuzinho,       pinned: true, authorized: false, priority: 1}
+  - {login: tixinhadois,    pinned: true, authorized: false, priority: 1}
+  - {login: liminhag0d,     pinned: true, authorized: false, priority: 1}
+  - {login: gabepeixe,      pinned: true, authorized: false, priority: 1}
+  - {login: brttt,          pinned: true, authorized: false, priority: 1}
+  - {login: yoda,           pinned: true, authorized: false, priority: 1}
+  - {login: mount,          pinned: true, authorized: false, priority: 1}
+  - {login: nobru,          pinned: true, authorized: false, priority: 1}
+  - {login: pimpimenta,     pinned: true, authorized: false, priority: 1}

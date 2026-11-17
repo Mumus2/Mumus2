@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="stats">
+  <div class="card stat"><small>Ao vivo em GTA 6 agora</small><b>{{ live_count }} / {{ streamers|length }}</b></div>
+  <div class="card stat"><small>Cota YouTube hoje</small><b>{{ quota_used }} / {{ quota_total }}</b>
+    <div class="bar"><i style="width:{{ (100 * quota_used / quota_total)|round|int if quota_total else 0 }}%"></i></div></div>
+  <div class="card stat"><small>Uploads que ainda cabem hoje</small><b>{{ uploads_left }}</b></div>
+  <div class="card stat"><small>Rodar agora</small>
+    <div class="actions" style="margin-top:6px">
+      <form method="post" action="/acao/discover"><button>Descobrir</button></form>
+      <form method="post" action="/acao/harvest"><button>Coletar clipes</button></form>
+      <form method="post" action="/acao/daily"><button class="primary">Postar</button></form>
+    </div>
+    {% if busy %}<small class="muted">rodando: {{ busy|join(', ') }}</small>{% endif %}
+  </div>
+</div>
+
+<h2>Streamers acompanhados</h2>
+{% if not streamers %}<p class="muted">Nenhum ainda. Rode <code>python -m clipador discover</code> ou clique em “Descobrir”.</p>{% endif %}
+<div class="grid">
+{% for s in streamers %}
+  <a class="card" href="/s/{{ s.login }}">
+    <div class="streamer">
+      {% if s.avatar_url %}<img src="{{ s.avatar_url }}" alt="">{% else %}<img alt="">{% endif %}
+      <div>
+        <div class="name">{{ s.display_name or s.login }}</div>
+        {% if s.is_live_gta %}<span class="pill live">AO VIVO · {{ s.last_viewers }}</span>
+        {% else %}<span class="pill">pico {{ s.peak_viewers }}</span>{% endif %}
+        {% if s.authorized %}<span class="pill ok">autorizado</span>{% endif %}
+      </div>
+    </div>
+    <div class="counts"><span>{{ s.total }} clipes</span><span>{{ s.ready }} prontos</span><span>{{ s.posted }} postados</span></div>
+  </a>
+{% endfor %}
+</div>
+
+<h2>Últimos momentos detectados no chat</h2>
+<div class="card">
+<table>
+  <tr><th>Quando</th><th>Canal</th><th>Força</th><th>Chat</th></tr>
+  {% for m in moments %}
+  <tr><td>{{ m.at_utc|local }}</td><td><a href="/s/{{ m.login }}">{{ m.login }}</a></td><td>z={{ m.score }}</td>
+      <td class="muted">{{ (m.sample or '').split('\n')[:3]|join(' · ')|truncate(120) }}</td></tr>
+  {% else %}
+  <tr><td colspan="4" class="muted">Nada ainda — aparece quando os streamers estiverem ao vivo em GTA 6.</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}

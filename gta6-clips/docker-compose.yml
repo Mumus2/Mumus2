@@ -1,0 +1,14 @@
+services:
+  clipador:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/app/data                 # banco, vídeos e token do YouTube
+      - ./config.yaml:/app/config.yaml:ro
+      - ./streamers.yaml:/app/streamers.yaml:ro
+    ports:
+      - "127.0.0.1:8080:8080"            # painel só no próprio servidor (use túnel SSH)
+    environment:
+      - PYTHONUNBUFFERED=1
+      - CLIPADOR_WEB_HOST=0.0.0.0

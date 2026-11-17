@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}{{ s.display_name or s.login }} · Clipador{% endblock %}
+{% block body %}
+<div class="streamer" style="margin-bottom:14px">
+  {% if s.avatar_url %}<img src="{{ s.avatar_url }}" alt="" style="width:64px;height:64px">{% endif %}
+  <div>
+    <h1 style="margin:0">{{ s.display_name or s.login }}</h1>
+    <a class="muted" href="https://twitch.tv/{{ s.login }}" target="_blank" rel="noopener">twitch.tv/{{ s.login }}</a>
+    {% if s.is_live_gta %}<span class="pill live">AO VIVO</span>{% endif %}
+  </div>
+  <form method="post" action="/streamer/{{ s.login }}/autorizado" style="margin-left:auto">
+    <button>{{ '✅ Autorizou cortes' if s.authorized else 'Marcar como autorizado' }}</button>
+  </form>
+</div>
+<div class="tabs" style="margin-bottom:16px">
+  {% for f in ['todos','prontos','postados','erros'] %}<a href="?filtro={{ f }}" class="{{ 'on' if filtro == f }}">{{ f|capitalize }}</a>{% endfor %}
+</div>
+{% set back = request.url.path ~ '?filtro=' ~ filtro %}
+<div class="clips">
+{% for c in clips %}
+  <div class="card clip">
+    {% if c.vertical_path %}<video src="/media/{{ c.id }}/vertical#t=1" controls preload="metadata"></video>
+    {% elif c.raw_path %}<video src="/media/{{ c.id }}/raw#t=1" controls preload="metadata"></video>
+    {% else %}<div class="ph">{{ status_of(c) }}<br>{{ c.url }}</div>{% endif %}
+    <div class="t">{{ c.custom_title or c.title or 'Momento de hype no chat' }}</div>
+    <div class="meta">
+      {% set st = status_of(c) %}
+      <span class="pill {{ 'ok' if st in ['pronto','agendado','publicado'] else 'bad' if st == 'erro' else '' }}">{{ st }}</span>
+      <span>{{ 'clipe da comunidade' if c.source == 'twitch_clip' else 'detectado no chat' }}</span>
+      <span>nota {{ c.score }}</span>
+      {% if c.view_count %}<span>{{ c.view_count }} views</span>{% endif %}
+      <span>{{ c.clip_created_at|local }}</span>
+      {% if c.approved == 1 %}<span class="pill ok">aprovado</span>{% elif c.approved == 0 %}<span class="pill bad">rejeitado</span>{% endif %}
+    </div>
+    {% if c.youtube_id %}<div class="meta"><a href="https://youtu.be/{{ c.youtube_id }}" target="_blank" rel="noopener">▶ ver no YouTube</a>{% if c.publish_at %}<span>publica {{ c.publish_at|local }}</span>{% endif %}</div>{% endif %}
+    {% if c.error %}<div class="err">{{ c.error }}</div>{% endif %}
+    <form method="post" action="/clip/{{ c.id }}/titulo">
+      <input type="text" name="titulo" placeholder="Título personalizado (opcional)" value="{{ c.custom_title or '' }}" maxlength="100">
+      <input type="hidden" name="voltar" value="{{ back }}">
+    </form>
+    <div class="actions">
+      <form method="post" action="/clip/{{ c.id }}/aprovar"><input type="hidden" name="voltar" value="{{ back }}"><button>👍 Aprovar</button></form>
+      <form method="post" action="/clip/{{ c.id }}/rejeitar"><input type="hidden" name="voltar" value="{{ back }}"><button>👎 Rejeitar</button></form>
+      {% if c.status == 'failed' %}<form method="post" action="/clip/{{ c.id }}/refazer"><input type="hidden" name="voltar" value="{{ back }}"><button>↻ Tentar de novo</button></form>{% endif %}
+    </div>
+  </div>
+{% else %}
+  <p class="muted">Nenhum clipe aqui ainda.</p>
+{% endfor %}
+</div>
+{% endblock %}

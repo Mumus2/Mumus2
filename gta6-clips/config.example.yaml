@@ -1,0 +1,71 @@
+# Copie para config.yaml e ajuste.  Todos os horários são no fuso abaixo.
+timezone: America/Sao_Paulo
+
+data_dir: data            # banco SQLite, vídeos baixados e renderizados
+
+twitch:
+  # Nome exato da categoria na Twitch. O id é descoberto automaticamente;
+  # se quiser fixar, preencha game_id.
+  game_name: "Grand Theft Auto VI"
+  game_id: ""
+  language: pt             # só lives em português
+  max_streamers: 30        # quantos canais acompanhar
+  min_viewers: 500         # ignora canais pequenos na descoberta automática
+
+discovery:
+  interval_minutes: 15     # de quanto em quanto tempo procura os maiores canais ao vivo
+  seed_file: streamers.yaml
+
+hype:                      # detector de "momentos" pelo chat
+  window_seconds: 10       # janela usada para medir a velocidade do chat
+  baseline_halflife_seconds: 300
+  z_threshold: 3.5         # quão acima do normal o chat precisa ficar
+  min_messages_per_window: 25
+  cooldown_seconds: 90     # evita 5 clipes do mesmo momento
+  pre_roll_seconds: 40     # o chat reage DEPOIS do lance: pega 40s antes
+  post_roll_seconds: 15
+  keyword_weight: 0.6      # peso extra para "kkkk", KEKW, "clipa", etc.
+
+harvest:
+  interval_minutes: 120
+  lookback_hours: 26
+  community_clips_per_streamer: 5   # melhores clipes feitos pelos viewers
+  min_clip_views: 50
+  max_clip_seconds: 60
+
+render:
+  vertical: true           # 1080x1920 -> vira YouTube Shorts
+  horizontal: false        # 1920x1080 (vídeo normal)
+  font_file: /usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
+  watermark: "@SeuCanalDeCortes"   # aparece no vídeo; deixe "" para não usar
+  crf: 21
+  preset: veryfast
+
+youtube:
+  # Custo de cota por upload (videos.insert).  Cota padrão do projeto Google:
+  # 10.000 unidades/dia.  Peça aumento de cota para postar 30/dia.
+  daily_quota: 10000
+  upload_cost: 1600
+  quota_reserve: 400       # sobra para outras chamadas
+  privacy: public          # public | unlisted | private
+  category_id: "20"        # 20 = Gaming
+  made_for_kids: false
+  # Horários de publicação (os vídeos sobem antes como "agendados")
+  publish_slots: ["10:00", "12:00", "14:00", "16:00", "18:00", "19:30", "21:00", "22:30"]
+  # Quando o robô monta o plano e faz os uploads (pode ter mais de um horário;
+  # cada streamer recebe no máximo 1 vídeo por dia, então rodar 2x só usa a cota que sobrou)
+  daily_run_time: ["08:30", "15:30"]
+  auto_approve: true       # false = só sobe clipes que você aprovar no painel
+  # Só posta canais marcados "authorized: true" no streamers.yaml.
+  # Recomendado: peça permissão aos streamers (ver README, seção "Direitos").
+  upload_only_authorized: false
+  compilation:
+    enabled: true          # 1 vídeo diário com os melhores de todos (1 upload só)
+    max_clips: 15
+  title_suffix: " | GTA 6"
+  hashtags: ["#gta6", "#gtavi", "#shorts"]
+  tags: ["gta 6", "gta vi", "gta 6 brasil", "cortes", "clips twitch", "melhores momentos"]
+
+web:
+  host: 127.0.0.1
+  port: 8080

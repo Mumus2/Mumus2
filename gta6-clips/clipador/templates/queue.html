@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Fila do YouTube · Clipador{% endblock %}
+{% block body %}
+<h1>Fila do YouTube</h1>
+<h2>Próxima rodada de postagem (prévia)</h2>
+<div class="card">
+{% if plan_error %}<p class="err">{{ plan_error }}</p>{% endif %}
+<table>
+  <tr><th>Publica em</th><th>Streamer</th><th>Clipe</th><th>Nota</th></tr>
+  {% for c, when in plan %}
+  <tr><td>{{ when|local }}</td><td><a href="/s/{{ c.login }}">{{ c.login }}</a></td>
+      <td>{{ c.custom_title or c.title or 'Momento de hype' }}</td><td>{{ c.score }}</td></tr>
+  {% else %}
+  <tr><td colspan="4" class="muted">Nenhum clipe pronto (ou a cota de hoje acabou).</td></tr>
+  {% endfor %}
+</table>
+</div>
+<h2>Enviados</h2>
+<div class="card">
+<table>
+  <tr><th>Enviado</th><th>Publica</th><th>Tipo</th><th>Streamer</th><th>Título</th></tr>
+  {% for u in uploads %}
+  <tr><td>{{ u.uploaded_at|local }}</td><td>{{ u.publish_at|local }}</td><td>{{ u.kind }}</td><td>{{ u.login or 'vários' }}</td>
+      <td>{% if u.youtube_id %}<a href="https://youtu.be/{{ u.youtube_id }}" target="_blank" rel="noopener">{{ u.title }}</a>{% else %}{{ u.title }}{% endif %}</td></tr>
+  {% else %}
+  <tr><td colspan="5" class="muted">Nada enviado ainda.</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}

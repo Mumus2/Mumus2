@@ -1,0 +1,14 @@
+# Para rodar sem Docker num servidor Linux:
+#   sudo cp clipador.service /etc/systemd/system/ && sudo systemctl enable --now clipador
+[Unit]
+Description=Clipador GTA 6
+After=network-online.target
+
+[Service]
+WorkingDirectory=/opt/gta6-clips
+ExecStart=/opt/gta6-clips/.venv/bin/python -m clipador run
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

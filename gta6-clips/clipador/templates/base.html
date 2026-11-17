@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Clipador GTA 6{% endblock %}</title>
+<style>
+  :root{--bg:#0d0f14;--card:#161a22;--line:#262c38;--txt:#e8ebf2;--mut:#8a93a6;--acc:#ff4f9a;--ok:#32d296;--warn:#ffb020;--bad:#ff5a5a;--live:#e91916}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  a{color:inherit;text-decoration:none}
+  header{display:flex;gap:20px;align-items:center;padding:14px 24px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(13,15,20,.92);backdrop-filter:blur(8px);z-index:5;flex-wrap:wrap}
+  header .logo{font-weight:800;font-size:18px;letter-spacing:.3px}
+  header .logo span{color:var(--acc)}
+  header nav a{color:var(--mut);margin-right:14px}
+  header nav a:hover,header nav a.on{color:var(--txt)}
+  main{max-width:1280px;margin:0 auto;padding:24px 16px 60px}
+  h1{font-size:22px;margin:0 0 16px}
+  h2{font-size:17px;margin:28px 0 12px;color:var(--mut);font-weight:600}
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+  .stats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:8px}
+  .stat b{display:block;font-size:26px}
+  .stat small{color:var(--mut)}
+  .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#222837;color:var(--mut)}
+  .pill.live{background:var(--live);color:#fff;font-weight:700}
+  .pill.ok{background:rgba(50,210,150,.15);color:var(--ok)}
+  .pill.warn{background:rgba(255,176,32,.15);color:var(--warn)}
+  .pill.bad{background:rgba(255,90,90,.15);color:var(--bad)}
+  .streamer{display:flex;gap:12px;align-items:center}
+  .streamer img{width:52px;height:52px;border-radius:50%;background:#222;object-fit:cover}
+  .streamer .name{font-weight:700}
+  .counts{display:flex;gap:10px;margin-top:10px;color:var(--mut);font-size:13px}
+  button,.btn{background:#232a39;color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;font:inherit;font-size:13px}
+  button:hover,.btn:hover{border-color:var(--acc)}
+  button.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+  .actions{display:flex;gap:8px;flex-wrap:wrap}
+  table{width:100%;border-collapse:collapse}
+  td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;font-size:14px;vertical-align:top}
+  th{color:var(--mut);font-weight:600}
+  .clips{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+  .clip video{width:100%;aspect-ratio:9/16;background:#000;border-radius:8px;object-fit:contain}
+  .clip .ph{width:100%;aspect-ratio:9/16;border-radius:8px;background:#0a0c10;display:grid;place-items:center;color:var(--mut);font-size:13px;text-align:center;padding:10px}
+  .clip .t{font-weight:600;margin:8px 0 4px;font-size:14px}
+  .clip .meta{color:var(--mut);font-size:12px;display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .clip input[type=text]{width:100%;background:#0f1218;border:1px solid var(--line);color:var(--txt);border-radius:6px;padding:6px;font-size:13px;margin-bottom:6px}
+  .err{color:var(--bad);font-size:12px;white-space:pre-wrap;max-height:80px;overflow:auto}
+  .tabs a{margin-right:12px;color:var(--mut)} .tabs a.on{color:var(--acc);font-weight:600}
+  .muted{color:var(--mut)}
+  .bar{height:8px;background:#232a39;border-radius:99px;overflow:hidden;margin-top:6px}
+  .bar i{display:block;height:100%;background:var(--acc)}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Clipador <span>GTA 6</span></div>
+  <nav>
+    <a href="/" class="{{ 'on' if request.url.path == '/' }}">Streamers</a>
+    <a href="/fila" class="{{ 'on' if request.url.path == '/fila' }}">Fila do YouTube</a>
+  </nav>
+</header>
+<main>{% block body %}{% endblock %}</main>
+</body>
+</html>
