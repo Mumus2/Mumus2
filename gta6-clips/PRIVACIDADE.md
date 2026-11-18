@@ -35,6 +35,11 @@ O Clipador usa os Serviços de API do YouTube. Ao usá-lo, valem também os
 A qualquer momento, em https://myaccount.google.com/permissions → **Clipador** →
 **Remover acesso**. Ao revogar, o token deixa de funcionar e pode ser apagado do servidor.
 
+## Exclusão de dados
+
+Ao revogar o acesso, ou a pedido do dono do canal, o token e as estatísticas guardadas no
+servidor são apagados em até 30 dias. Veja também os [Termos de Serviço](TERMOS.md).
+
 ## Contato
 
 Pelo canal https://www.youtube.com/@ClipouBR-GTA6 (aba "Sobre").

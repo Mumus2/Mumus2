@@ -1,5 +1,9 @@
 # Clipador GTA 6 🎬
 
+> ▶️ **Usa os Serviços de API do YouTube** · [Política de Privacidade](PRIVACIDADE.md) ·
+> [Termos de Serviço](TERMOS.md) · [Termos de Serviço do YouTube](https://www.youtube.com/t/terms) ·
+> [Política de Privacidade do Google](https://policies.google.com/privacy)
+
 Robô que acompanha as lives dos **30 maiores streamers brasileiros jogando GTA 6 na Twitch**,
 encontra os melhores momentos, edita cada clipe no formato **YouTube Shorts (9:16)** com crédito ao
 streamer e **posta no seu canal todo dia, de forma automática e agendada**. Um painel web mostra os

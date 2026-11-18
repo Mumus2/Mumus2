@@ -127,6 +127,29 @@ def cmd_channel(args) -> int:
     return 0
 
 
+def cmd_test_upload(args) -> int:
+    """Envia um vídeo de teste (privado) — útil para gravar o fluxo completo para a auditoria."""
+    from pathlib import Path
+    from .media import run
+    from .youtube import build_metadata
+    app = _app(args)
+    video = Path(args.arquivo) if args.arquivo else app.cfg.data_dir / "teste_upload.mp4"
+    if not args.arquivo:
+        font = app.cfg["render"]["font_file"]
+        txt = app.cfg.data_dir / "teste_upload.txt"
+        txt.write_text("Teste do Clipador", encoding="utf-8")
+        run(["ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-f", "lavfi",
+             "-i", "color=c=0x3b0a4f:s=1080x1920:d=5", "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo",
+             "-shortest", "-vf", f"drawtext=fontfile='{font}':textfile='{txt}':fontsize=80:fontcolor=white:"
+             "x=(w-tw)/2:y=(h-th)/2", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", str(video)])
+    print(f"Enviando {video} como PRIVADO...")
+    meta = build_metadata("Teste do Clipador", "Vídeo de teste enviado pelo Clipador.", ["teste"],
+                          app.cfg["youtube"]["category_id"], "private", None, False)
+    vid = app.youtube().upload(video, meta)
+    print(f"✅ Enviado: https://youtu.be/{vid}  (abra no YouTube Studio → Conteúdo)")
+    return 0
+
+
 def cmd_web(args) -> int:
     import uvicorn
     from .web import create_app
@@ -168,6 +191,9 @@ def main(argv: list[str] | None = None) -> int:
     sb.add_argument("--no-banner", action="store_true")
     sb.set_defaults(fn=cmd_brand)
     sub.add_parser("canal", help="coleta agora os números do canal para o painel /canal").set_defaults(fn=cmd_channel)
+    st = sub.add_parser("teste-upload", help="envia um vídeo de teste privado (para gravar a auditoria)")
+    st.add_argument("--arquivo", help="mp4 a enviar (padrão: gera um vídeo de 5 s)")
+    st.set_defaults(fn=cmd_test_upload)
     sub.add_parser("web", help="só o painel web").set_defaults(fn=cmd_web)
     sr = sub.add_parser("run", help="roda TUDO 24h (robô + painel)")
     sr.add_argument("--no-web", action="store_true")
