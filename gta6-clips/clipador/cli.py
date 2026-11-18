@@ -87,7 +87,15 @@ def cmd_post(args) -> int:
 def cmd_export(args) -> int:
     from .publisher import export_day
     app = _app(args)
-    print(f"Pasta pronta para postar manualmente: {export_day(app.db, app.cfg, args.count)}")
+    out = export_day(app.db, app.cfg, args.count, login=args.streamer, all_clips=args.todos)
+    n = len(list(out.glob("*.mp4")))
+    if not n:
+        print("Nenhum clipe pronto para exportar agora" + (f" do {args.streamer}." if args.streamer else ".")
+              + " Veja no painel se há clipes em 'Prontos'.")
+    else:
+        print(f"✅ {n} vídeo(s) prontos em: {out}")
+        print("   Abra no Windows com:  explorer.exe " + str(out.relative_to(app.cfg.root)))
+    return 0
     return 0
 
 
@@ -182,6 +190,8 @@ def main(argv: list[str] | None = None) -> int:
     sp.set_defaults(fn=cmd_post)
     se = sub.add_parser("export", help="gera pasta com vídeos + títulos para postar à mão")
     se.add_argument("--count", type=int, default=30)
+    se.add_argument("--streamer", help="só os clipes deste streamer (login da Twitch, ex.: alanzoka)")
+    se.add_argument("--todos", action="store_true", help="todos os clipes prontos, não só o melhor de cada streamer")
     se.set_defaults(fn=cmd_export)
     sa = sub.add_parser("youtube-auth", help="autoriza o canal do YouTube (uma vez)")
     sa.add_argument("--manual", action="store_true", help="servidor sem navegador: colar a URL de retorno")

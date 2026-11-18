@@ -51,17 +51,33 @@ def make_title(clip: dict, display_name: str, suffix: str, sample: str = "") -> 
     return fit_title(base, suffix.replace("| GTA 6", "").strip() if "GTA 6" in base else suffix)
 
 
+def streamer_hashtag(login: str) -> str:
+    return "#" + re.sub(r"[^0-9a-zA-Z]", "", login).lower()
+
+
+def make_hashtags(login: str, hashtags: list[str], limit: int = 15) -> list[str]:
+    """Hashtag do streamer primeiro; sem repetidas; no máximo 15 (acima disso o YouTube ignora todas)."""
+    out: list[str] = []
+    for h in [streamer_hashtag(login), *hashtags]:
+        h = h if h.startswith("#") else "#" + h
+        if len(h) > 1 and h.lower() not in {x.lower() for x in out}:
+            out.append(h)
+    return out[:limit]
+
+
 def make_description(clip: dict, login: str, display_name: str, hashtags: list[str], live_date: datetime | None) -> str:
     when = f"📅 Live de {live_date:%d/%m/%Y}\n" if live_date else ""
     return clean_desc(
         f"🎮 {display_name} jogando GTA 6 ao vivo na Twitch!\n"
-        f"👉 Siga o streamer: https://twitch.tv/{login}\n"
+        f"👉 Siga o {display_name}: https://twitch.tv/{login}\n"
         f"{when}\n"
+        "🔔 Inscreva-se e ative o sininho: os melhores momentos de GTA 6 dos maiores "
+        "streamers do Brasil, todo dia!\n"
+        "💬 Comenta aí: qual streamer você quer ver aqui?\n\n"
         "Todos os créditos ao criador original. Este é um corte da live com edição e "
         "créditos ao streamer. Se você é o criador e quer a remoção, é só comentar ou "
         "mandar mensagem que retiramos.\n\n"
-        "🔔 Inscreva-se para ver os melhores momentos de GTA 6 dos maiores streamers do Brasil todo dia!\n\n"
-        + " ".join(hashtags)
+        + " ".join(make_hashtags(login, hashtags))
     )
 
 

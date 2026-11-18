@@ -74,8 +74,10 @@ youtube:
     enabled: true          # 1 vídeo diário com os melhores de todos (1 upload só)
     max_clips: 15
   title_suffix: " | GTA 6"
-  hashtags: ["#gta6", "#gtavi", "#shorts"]
-  tags: ["gta 6", "gta vi", "gta 6 brasil", "cortes", "clips twitch", "melhores momentos"]
+  # a hashtag do streamer (#alanzoka, #gaules...) entra sozinha na frente destas
+  hashtags: ["#gta6", "#gtavi", "#gta6brasil", "#shorts", "#cortes", "#clipsdetwitch", "#gta"]
+  tags: ["gta 6", "gta vi", "gta 6 brasil", "gta 6 gameplay", "gta 6 engraçado", "cortes",
+         "cortes de live", "clips twitch", "melhores momentos", "momentos engraçados"]
 
 dashboard:                 # painel do canal em /canal
   refresh_minutes: 60      # cada coleta gasta ~10 unidades da cota da Data API

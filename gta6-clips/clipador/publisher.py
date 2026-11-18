@@ -217,14 +217,26 @@ def _compilation(db: DB, cfg: Config, yt: YouTube, media: MediaWorker, now: date
     return vid
 
 
-def export_day(db: DB, cfg: Config, count: int = 30) -> Path:
-    """Gera uma pasta com os vídeos do dia + títulos/descrições para postar manualmente
-    (útil enquanto a API do YouTube não está liberada para seu projeto)."""
+def export_day(db: DB, cfg: Config, count: int = 30, login: str | None = None,
+               all_clips: bool = False) -> Path:
+    """Gera uma pasta com vídeos prontos + títulos/descrições para postar manualmente.
+
+    Padrão: o melhor clipe de cada streamer (1 por streamer por dia).
+    login="alanzoka": só esse streamer.  all_clips=True: todos os clipes prontos, não só o melhor."""
     now = utcnow()
     day = now.astimezone(cfg.tz)
-    out = cfg.data_dir / "export" / f"{day:%Y-%m-%d}"
+    suffix = f"_{login}" if login else ""
+    out = cfg.data_dir / "export" / f"{day:%Y-%m-%d}" / f"{day:%Hh%M}{suffix}"
     out.mkdir(parents=True, exist_ok=True)
-    plan = plan_today(db, cfg, now, capacity=count)
+    if login or all_clips:
+        cands = [c for c in candidates(db, cfg, now=now) if not login or c.login == login.lower()]
+        if not all_clips:
+            cands = pick_clips(cands, len(cands))
+        chosen = sorted(cands, key=lambda c: -c.score)[:count]
+        times = publish_times(len(chosen), day.date(), cfg["youtube"]["publish_slots"], cfg.tz, day)
+        plan = [(db.one("SELECT * FROM clips WHERE id=?", (c.clip_id,)), t) for c, t in zip(chosen, times)]
+    else:
+        plan = plan_today(db, cfg, now, capacity=count)
     manifest = []
     for i, (clip, when) in enumerate(plan, 1):
         meta = build_video_meta(db, cfg, clip, when)

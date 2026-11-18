@@ -254,3 +254,27 @@ def test_youtube_branding_update(tmp_path):
     assert ch["keywords"] == '"GTA 6" cortes' and ch["country"] == "BR"
     assert ch["description"] == "Descrição nova"
     assert sent["brandingSettings"]["image"] == {"bannerExternalUrl": "https://banner/1"}
+
+
+def test_export_single_streamer_all_clips(world, tmp_path):
+    app, db, cfg = world, world.db, world.cfg
+    sync_seeds(db, app.tw, cfg); discover(db, app.tw, cfg, "999"); refresh_live(db, app.tw, "999")
+    harvest_community(db, app.tw, cfg, "999")
+    fake_download(app.media, tmp_path)
+    app.media.process_pending()
+    out = export_day(db, cfg, login="beta", all_clips=True)
+    manifest = json.loads((out / "postagens.json").read_text(encoding="utf-8"))
+    assert [m["arquivo"].split("_")[1] for m in manifest] == ["beta", "beta"]     # os 2 clipes do beta
+    assert out.name.endswith("_beta")
+    desc = manifest[0]["descricao"]
+    assert desc.split()[-8:][0] == "#beta" and "#gta6" in desc and "twitch.tv/beta" in desc
+    # segunda rodada no mesmo dia: pasta nova, não apaga a primeira; beta já exportado
+    out2 = export_day(db, cfg)
+    assert out2 != out and (out / "postagens.json").exists()
+    assert {m["arquivo"].split("_")[1] for m in json.loads((out2 / "postagens.json").read_text())} == {"alpha", "gamma"}
+
+
+def test_hashtags_streamer_first_and_capped():
+    from clipador.metadata import make_hashtags
+    tags = make_hashtags("loud_coringa", ["#gta6", "gta6", "#GTA6", "#shorts"] + [f"#t{i}" for i in range(20)])
+    assert tags[:3] == ["#loudcoringa", "#gta6", "#shorts"] and len(tags) == 15
