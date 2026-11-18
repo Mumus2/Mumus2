@@ -158,6 +158,61 @@ def cmd_test_upload(args) -> int:
     return 0
 
 
+def cmd_diag(args) -> int:
+    """Mostra em que etapa os momentos e clipes estão parando."""
+    from .db import parse_iso
+    from .twitch import parse_twitch_duration
+    app = _app(args)
+    db = app.db
+    print("== Coleta ==")
+    print("  Última:", db.get_meta("ultima_coleta") or "nenhuma ainda (roda 2 min após ligar o robô e depois a cada 5 min)")
+    live = db.query("SELECT login FROM streamers WHERE tracked=1 AND is_live_gta=1")
+    print(f"  Ao vivo em GTA 6 agora: {', '.join(r['login'] for r in live) or 'ninguém'}")
+
+    print("\n== Momentos do chat (🔥) ==")
+    labels = {0: "aguardando a gravação da live (VOD) chegar no ponto", 1: "viraram clipe",
+              2: "descartados: o streamer não salva as lives (sem VOD)", 3: "descartados: já havia clipe da comunidade"}
+    rows = db.query("SELECT harvested, COUNT(*) AS n FROM moments GROUP BY harvested")
+    for r in rows:
+        print(f"  {r['n']:>4}  {labels.get(r['harvested'], r['harvested'])}")
+    if not rows:
+        print("  nenhum ainda")
+
+    pend = db.query("SELECT m.*, s.user_id FROM moments m JOIN streamers s ON s.login=m.login "
+                    "WHERE m.harvested=0 ORDER BY m.id DESC LIMIT 5")
+    if pend:
+        print("\n  Checando os VODs dos últimos momentos pendentes na Twitch:")
+        cache: dict = {}
+        for m in pend:
+            try:
+                vids = cache.setdefault(m["user_id"], app.tw.archives(m["user_id"]))
+            except Exception as e:  # noqa: BLE001
+                print(f"  • {m['login']}: erro ao consultar a Twitch: {e}")
+                continue
+            v = next((x for x in vids if x.get("stream_id") == m["stream_id"]), None)
+            if not v:
+                print(f"  • {m['login']}: a Twitch não mostra o VOD desta live "
+                      f"({len(vids)} VODs no canal). O streamer pode não salvar as lives.")
+                continue
+            need = (parse_iso(m["at_utc"]) - parse_iso(v["created_at"])).total_seconds() + app.cfg["hype"]["post_roll_seconds"]
+            have = parse_twitch_duration(v["duration"])
+            status = "pronto para recortar na próxima coleta" if have >= need else f"faltam {int(need - have)} s de gravação"
+            print(f"  • {m['login']}: VOD {v['id']} tem {have // 60} min, o momento está em {int(need) // 60} min → {status}")
+
+    print("\n== Clipes ==")
+    names = {"candidate": "na fila para baixar", "downloaded": "baixados", "rendered": "prontos",
+             "scheduled": "agendados", "exported": "exportados", "failed": "com erro"}
+    rows = db.query("SELECT status, COUNT(*) AS n FROM clips GROUP BY status")
+    for r in rows:
+        print(f"  {r['n']:>4}  {names.get(r['status'], r['status'])}")
+    if not rows:
+        print("  nenhum ainda")
+    errs = db.query("SELECT id, login, error FROM clips WHERE status='failed' ORDER BY id DESC LIMIT 3")
+    for e in errs:
+        print(f"\n  ❌ clipe #{e['id']} ({e['login']}):\n     " + (e["error"] or "")[-400:].replace("\n", "\n     "))
+    return 0
+
+
 def cmd_web(args) -> int:
     import uvicorn
     from .web import create_app
@@ -204,6 +259,7 @@ def main(argv: list[str] | None = None) -> int:
     st = sub.add_parser("teste-upload", help="envia um vídeo de teste privado (para gravar a auditoria)")
     st.add_argument("--arquivo", help="mp4 a enviar (padrão: gera um vídeo de 5 s)")
     st.set_defaults(fn=cmd_test_upload)
+    sub.add_parser("diagnostico", help="mostra onde os momentos/clipes estão parando").set_defaults(fn=cmd_diag)
     sub.add_parser("web", help="só o painel web").set_defaults(fn=cmd_web)
     sr = sub.add_parser("run", help="roda TUDO 24h (robô + painel)")
     sr.add_argument("--no-web", action="store_true")

@@ -57,9 +57,13 @@ class Clipador:
         return self.live_gta
 
     def job_harvest(self) -> None:
-        harvest_community(self.db, self.tw, self.cfg, self.game_id)
-        harvest_moments(self.db, self.tw, self.cfg)
-        self.media.process_pending()
+        log.info("Coletando clipes...")
+        com = harvest_community(self.db, self.tw, self.cfg, self.game_id)
+        mom = harvest_moments(self.db, self.tw, self.cfg)
+        done = self.media.process_pending()
+        resumo = f"{com} da comunidade, {mom} de momentos do chat, {done} editados"
+        self.db.set_meta("ultima_coleta", f"{datetime.now():%d/%m %H:%M} — {resumo}")
+        log.info("Coleta terminada: %s", resumo)
 
     @property
     def realtime(self) -> bool:

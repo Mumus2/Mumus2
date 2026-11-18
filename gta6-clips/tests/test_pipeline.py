@@ -278,3 +278,23 @@ def test_hashtags_streamer_first_and_capped():
     from clipador.metadata import make_hashtags
     tags = make_hashtags("loud_coringa", ["#gta6", "gta6", "#GTA6", "#shorts"] + [f"#t{i}" for i in range(20)])
     assert tags[:3] == ["#loudcoringa", "#gta6", "#shorts"] and len(tags) == 15
+
+
+def test_diagnostico_command(world, monkeypatch, capsys):
+    from clipador import cli
+    app, db, cfg = world, world.db, world.cfg
+    sync_seeds(db, app.tw, cfg); discover(db, app.tw, cfg, "999")
+    live = refresh_live(db, app.tw, "999")
+    # momento 5 min atrás numa live cujo VOD já tem 2h → pronto; outro de agora → pendente
+    record_moment(db, "beta", live["beta"], (utcnow() - timedelta(minutes=5)).timestamp(), 6.0, 80, ["KEKW"])
+    app.tw.archive_map["2"][0]["duration"] = "1h50m0s"
+    cid = db.add_clip(login="gamma", source="hype", source_id="vod:x:1", url="u", score=1)
+    db.update_clip(cid, status="failed", error="ERROR: This video is only available for subscribers")
+    monkeypatch.setattr(cli, "_app", lambda args: app)
+    assert cli.main(["diagnostico"]) == 0
+    out = capsys.readouterr().out
+    assert "Ao vivo em GTA 6 agora: alpha, beta, gamma" in out
+    assert "1  aguardando a gravação" in out
+    # 5 min até o momento + 15 s de pós-momento que o corte inclui
+    assert "beta: VOD v2 tem 110 min, o momento está em 115 min → faltam 315 s de gravação" in out
+    assert "only available for subscribers" in out and "1  com erro" in out
