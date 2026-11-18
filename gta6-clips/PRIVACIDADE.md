@@ -2,7 +2,7 @@
 
 Última atualização: 18/11/2026
 
-O **Clipador** é um aplicativo de uso próprio do canal **Clipou Cortes**
+O **Clipador** é um aplicativo de uso próprio do canal **Clipou Cortes BR**
 (https://www.youtube.com/@ClipouBR-GTA6). Ele publica cortes de lives no canal e
 mostra as estatísticas do canal num painel privado.
 
