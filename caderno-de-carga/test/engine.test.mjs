@@ -379,3 +379,26 @@ test('simulate applies target RIR when the real sets log RIR', () => {
   const [first] = Engine.simulate(sessions, stiff, ON, 1)
   assert.deepEqual([first.carga, first.reps, first.rir], [35, 7, 1])
 })
+
+test('reads rows exactly as the Sheets connector returns them (strings, pt-BR, short rows)', () => {
+  const payload = {
+    range: 'Registros!A1:J3',
+    values: [
+      ['Data', 'Local', 'Treino', 'Exercício', 'Série', 'Carga', 'Unidade', 'Reps', 'RIR', 'Obs'],
+      ['21/11/2026', 'SJC', 'Upper B', 'Supino reto (máquina ou Smith)', '1', '102,5', 'kg', '7', '', 'marca inicial'],
+      ['22/11/2026', 'Campinas', 'Upper A', 'Remada Tbar', '1', '60', 'kg', '7']
+    ]
+  }
+  const sets = Engine.parseRegistros(payload.values)
+  assert.equal(sets.length, 2)
+  assert.equal(sets[0].carga, 102.5)
+  assert.equal(sets[1].rir, null)
+  assert.equal(sets[1].obs, '')
+  const plan = Engine.parseExercicios([
+    ['Treino', 'Ordem', 'Exercício', 'Local', 'Grupo', 'Unidade', 'Incremento', 'Reps mín', 'Reps máx', 'RIR alvo', 'Séries', 'Obs'],
+    ['Upper A', '2', 'Remada Tbar', 'Campinas', 'Costas', 'kg', '2,5', '5', '8', '1', '2']
+  ])
+  assert.equal(plan[0].inc, 2.5)
+  assert.equal(plan[0].rirAlvo, 1)
+  assert.equal(plan[0].obs, '')
+})

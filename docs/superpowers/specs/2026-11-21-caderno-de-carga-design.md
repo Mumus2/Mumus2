@@ -79,4 +79,4 @@ acontece em dois locais com máquinas diferentes: **Campinas** e **São José do
 ## Deixado para o construtor
 
 - Incrementos de cada máquina (palpites editáveis na aba Exercícios), séries planejadas (padrão 2),
-  RIR alvo (1 nos compostos pesados, 0 no resto), cores e layout fino.
+  RIR alvo (0 em todos, combinando com treino até a falha; 1–2 fica disponível por exercício na planilha), cores e layout fino.

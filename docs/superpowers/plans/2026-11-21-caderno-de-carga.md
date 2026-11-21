@@ -15,7 +15,7 @@
 - Idioma da interface e da planilha: português do Brasil; locale `pt_BR`, fuso `America/Sao_Paulo`.
 - Locais: exatamente `Campinas` e `SJC`; Local de exercício pode ser `Ambos` (histórico compartilhado).
 - Unidades: `kg`, `kg/lado`, `placas`. Rotação: `Upper A → Lower A → Upper B → Lower B`.
-- Padrões: faixa 5–8 reps; RIR alvo 1 em Stiff, Leg press 45°, Agachamento pêndulo, Remada Tbar e Hip thrust, 0 no resto; séries 2; incremento padrão kg 2,5 · kg/lado 2,5 · placas 1 · halter 2.
+- Padrões: faixa 5–8 reps; RIR alvo 0 em todos; séries 2; incremento padrão kg 2,5 · kg/lado 2,5 · placas 1 · halter 2.
 - e1RM Epley `W·(1+R/30)`, `R = reps + RIR` só com "Contar RIR" ligado; RIR vazio = 0; `R > 15` = estimativa pouco confiável.
 - Deload: 3 sessões seguidas sem superar o melhor e1RM → −10% (mínimo 1 passo). Ganho por sessão `g` = tendência limitada a 0,25–2,5%, padrão 1%.
 - Datas gravadas pelo painel como número de série (dias desde 30/12/1899).
