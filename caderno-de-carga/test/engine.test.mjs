@@ -402,3 +402,37 @@ test('reads rows exactly as the Sheets connector returns them (strings, pt-BR, s
   assert.equal(plan[0].rirAlvo, 1)
   assert.equal(plan[0].obs, '')
 })
+
+test('nextWorkout ignores the initial marks: the rotation starts at Upper A', () => {
+  const marks = [set('2026-11-20', 'Campinas', 'Supino inclinado com halter', 32, 6, null, { treino: 'Upper A', baseline: true })]
+  assert.equal(Engine.nextWorkout(marks), 'Upper A')
+  const withReal = marks.concat([set('2026-11-21', 'Campinas', 'Mesa flexora', 10, 6, null, { treino: 'Lower A' })])
+  assert.equal(Engine.nextWorkout(withReal), 'Upper B')
+})
+
+test('workoutRows lists one workout at one gym in plan order, shared rows included, without repeats', () => {
+  const plan = Engine.parseExercicios([Engine.SCHEMA.exercicios,
+    ['Upper A', 2, 'Remada Tbar', 'Campinas', 'Costas', 'kg', 2.5, 5, 8, 0, 2, ''],
+    ['Upper A', 2, 'Remada Tbar', 'SJC', 'Costas', 'kg', 2.5, 5, 8, 0, 2, ''],
+    ['Upper A', 1, 'Supino inclinado com halter', 'Ambos', 'Peito', 'kg', 2, 5, 8, 0, 2, ''],
+    ['Upper A', 1, 'Supino inclinado com halter', 'Ambos', 'Peito', 'kg', 2, 5, 8, 0, 2, 'repetida'],
+    ['Lower A', 1, 'Mesa flexora', 'Campinas', 'Posterior', 'placas', 1, 5, 8, 0, 2, '']
+  ])
+  const rows = Engine.workoutRows(plan, 'Upper A', 'SJC')
+  assert.deepEqual(rows.map(r => r.exercicio + '@' + r.local), ['Supino inclinado com halter@Ambos', 'Remada Tbar@SJC'])
+})
+
+test('splitToday separates a real session done today from the history behind it', () => {
+  const row = planRow({ inc: 2 })
+  const sets = [
+    set('2026-11-20', 'Campinas', row.exercicio, 32, 6, null, { baseline: true }),
+    set('2026-11-21', 'Campinas', row.exercicio, 32, 7, 0)
+  ]
+  const sessions = Engine.sessionsFor(sets, row, 'Campinas', ON)
+  const { before, doneToday } = Engine.splitToday(sessions, '2026-11-21')
+  assert.equal(before.length, 1)
+  assert.equal(doneToday.top.reps, 7)
+  const onlyMarks = Engine.splitToday(Engine.sessionsFor(sets.slice(0, 1), row, 'Campinas', ON), '2026-11-20')
+  assert.equal(onlyMarks.doneToday, null)
+  assert.equal(onlyMarks.before.length, 1)
+})

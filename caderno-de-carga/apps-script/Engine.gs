@@ -454,6 +454,26 @@
     return rx('hold', W, min, t, row, 'Abaixo da faixa (' + R + ' reps): mesma carga, busque ' + min + '.')
   }
 
+  /** One workout at one gym, in plan order: the gym's own rows plus shared (Ambos) ones, once each. */
+  function workoutRows(plan, treino, local) {
+    var rows = (plan || []).filter(function (p) { return p.treino === treino && (p.local === local || p.local === 'Ambos') })
+    rows.sort(function (a, b) {
+      return (a.ordem == null ? 99 : a.ordem) - (b.ordem == null ? 99 : b.ordem) || (a.row || 0) - (b.row || 0)
+    })
+    var seen = {}
+    return rows.filter(function (r) { if (seen[r.key]) return false; seen[r.key] = true; return true })
+  }
+
+  /**
+   * A real session logged today is the workout in progress, not history: today's target is
+   * worked out from the sessions before it. "Marca inicial" rows are always history.
+   */
+  function splitToday(sessions, today) {
+    var list = sessions || [], last = list[list.length - 1]
+    var doneToday = last && last.date === today && !last.baseline ? last : null
+    return { before: doneToday ? list.slice(0, -1) : list, doneToday: doneToday }
+  }
+
   /** The rule played forward n sessions, assuming each target is met at the target RIR. */
   function simulate(sessions, row, opts, n) {
     opts = opts || {}
@@ -487,11 +507,14 @@
 
   // ------------------------------------------------------------------ calendar views
 
-  /** Next workout in the rotation after the latest logged day (any gym). */
+  /**
+   * Next workout in the rotation after the latest logged day (any gym). "Marca inicial" rows
+   * are reference points, not workouts, so with only those the rotation starts at Upper A.
+   */
   function nextWorkout(sets) {
     var last = null
     ;(sets || []).forEach(function (s) {
-      if (ROTATION.indexOf(s.treino) < 0) return
+      if (s.baseline || ROTATION.indexOf(s.treino) < 0) return
       if (!last || s.date > last.date || (s.date === last.date && (s.row || 0) >= (last.row || 0))) last = s
     })
     return last ? ROTATION[(ROTATION.indexOf(last.treino) + 1) % ROTATION.length] : ROTATION[0]
@@ -556,6 +579,7 @@
     parseDiario: parseDiario,
     e1rm: e1rm, planFor: planFor, sessionsFor: sessionsFor, stallCount: stallCount,
     trendGain: trendGain, nextPrescription: nextPrescription, simulate: simulate, status: status,
+    workoutRows: workoutRows, splitToday: splitToday,
     nextWorkout: nextWorkout, weeklyVolume: weeklyVolume, dailyDiary: dailyDiary,
     fmt: fmt, unitLabel: unitLabel, todayISO: todayISO, addDays: addDays, mondayOf: mondayOf
   }

@@ -341,12 +341,7 @@ tr:last-child td { border-bottom: 0; }
     return E.nextWorkout(D.sets)
   }
 
-  function planRowsFor(treino, local) {
-    var rows = D.plan.filter(function (p) { return p.treino === treino && (p.local === local || p.local === 'Ambos') })
-    rows.sort(function (a, b) { return (a.ordem == null ? 99 : a.ordem) - (b.ordem == null ? 99 : b.ordem) || a.row - b.row })
-    var seen = {}
-    return rows.filter(function (r) { if (seen[r.key]) return false; seen[r.key] = true; return true })
-  }
+  function planRowsFor(treino, local) { return E.workoutRows(D.plan, treino, local) }
   function exercisesAt(local) {
     var out = [], seen = {}
     E.ROTATION.forEach(function (t) {
@@ -371,9 +366,7 @@ tr:last-child td { border-bottom: 0; }
   function model(row, local) {
     var opts = { countRIR: S.countRIR }
     var sessions = E.sessionsFor(D.sets, row, local, opts)
-    var last = sessions[sessions.length - 1]
-    var doneToday = last && last.date === D.today && !last.baseline ? last : null
-    var before = doneToday ? sessions.slice(0, -1) : sessions
+    var split = E.splitToday(sessions, D.today), doneToday = split.doneToday, before = split.before
     var ref = null
     if (!sessions.length && row.local !== 'Ambos') {
       var other = local === 'SJC' ? 'Campinas' : 'SJC'
