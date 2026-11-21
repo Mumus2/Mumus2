@@ -1,0 +1,1185 @@
+<title>Caderno de Carga</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@300;400;500;600;700&display=swap">
+<style>
+/* Caderno de Carga — Ethereal, "nuvem de magnésio": pearl light through drifting chalk haze
+   (peach, lavender and mist aqua by day; rose, violet and teal aurora at night), frosted glass
+   cards with a bright rim, a delicate serif for titles and light sans figures. Layout is the
+   app's: one centered column (max 680px) under a glass header, a floating glass tab bar, and
+   the gym tinting the accent: Campinas aurora rose, SJC periwinkle. */
+:root {
+  --bg: #f4f1fa;
+  --haze-1: rgba(255, 186, 168, .62); --haze-2: rgba(186, 170, 255, .6); --haze-3: rgba(150, 222, 228, .55);
+  --surface: rgba(255, 255, 255, .6); --surface-strong: rgba(255, 255, 255, .92);
+  --surface-2: rgba(112, 96, 170, .07); --surface-3: rgba(112, 96, 170, .13);
+  --ring: #faf8fd; --edge: rgba(255, 255, 255, .85);
+  --glow: 0 12px 40px -12px rgba(98, 80, 170, .3), 0 2px 8px rgba(98, 80, 170, .06);
+  --label: #26213b; --label-2: #615a7c; --label-3: #8c86a4;
+  --sep: rgba(90, 78, 140, .14); --grid: rgba(90, 78, 140, .1); --axis: rgba(90, 78, 140, .28);
+  --good: #23764a; --good-mark: #4cc38a; --warn: #8a5a12; --warn-mark: #f2b84b;
+  --bad: #a3324e; --bad-mark: #e0667f;
+  --cps: #a63d5f; --cps-fill: linear-gradient(135deg, #ffc3cf, #ffd9bd); --cps-series: #d4587c;
+  --sjc: #4553b3; --sjc-fill: linear-gradient(135deg, #c5ccff, #ddc8ff); --sjc-series: #5a68d8;
+  --on-fill: #26213b; --water: #13a398; --violet: #7a5fd6;
+  --font: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --display: "Cormorant Garamond", "Cormorant", Garamond, "Times New Roman", serif;
+  --band-alpha: 15%;
+  --r: 16px; --r-lg: 24px; --ease: cubic-bezier(.22, .8, .2, 1); --fast: 180ms;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c0a19;
+    --haze-1: rgba(214, 88, 140, .32); --haze-2: rgba(112, 86, 232, .4); --haze-3: rgba(38, 178, 168, .28);
+    --surface: rgba(255, 255, 255, .055); --surface-strong: rgba(28, 25, 48, .92);
+    --surface-2: rgba(255, 255, 255, .06); --surface-3: rgba(255, 255, 255, .11);
+    --ring: #1a1830; --edge: rgba(255, 255, 255, .1);
+    --glow: 0 16px 44px -14px rgba(0, 0, 0, .6), 0 0 0 .5px rgba(255, 255, 255, .03);
+    --label: #efedf8; --label-2: #b2adc9; --label-3: #7f7a9a;
+    --sep: rgba(255, 255, 255, .09); --grid: rgba(255, 255, 255, .07); --axis: rgba(255, 255, 255, .2);
+    --good: #7fe0ae; --good-mark: #3fbf80; --warn: #f7cf7a; --warn-mark: #f2b84b;
+    --bad: #ff9fb2; --bad-mark: #e0667f;
+    --cps: #ffb3c5; --cps-fill: linear-gradient(135deg, #ffb3c5, #ffcfae); --cps-series: #d9668a;
+    --sjc: #b8c1ff; --sjc-fill: linear-gradient(135deg, #b8c1ff, #d6bfff); --sjc-series: #717fe6;
+    --on-fill: #1a1530; --water: #1fa89e; --violet: #a993ff; --band-alpha: 9%;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c0a19;
+  --haze-1: rgba(214, 88, 140, .32); --haze-2: rgba(112, 86, 232, .4); --haze-3: rgba(38, 178, 168, .28);
+  --surface: rgba(255, 255, 255, .055); --surface-strong: rgba(28, 25, 48, .92);
+  --surface-2: rgba(255, 255, 255, .06); --surface-3: rgba(255, 255, 255, .11);
+  --ring: #1a1830; --edge: rgba(255, 255, 255, .1);
+  --glow: 0 16px 44px -14px rgba(0, 0, 0, .6), 0 0 0 .5px rgba(255, 255, 255, .03);
+  --label: #efedf8; --label-2: #b2adc9; --label-3: #7f7a9a;
+  --sep: rgba(255, 255, 255, .09); --grid: rgba(255, 255, 255, .07); --axis: rgba(255, 255, 255, .2);
+  --good: #7fe0ae; --good-mark: #3fbf80; --warn: #f7cf7a; --warn-mark: #f2b84b;
+  --bad: #ff9fb2; --bad-mark: #e0667f;
+  --cps: #ffb3c5; --cps-fill: linear-gradient(135deg, #ffb3c5, #ffcfae); --cps-series: #d9668a;
+  --sjc: #b8c1ff; --sjc-fill: linear-gradient(135deg, #b8c1ff, #d6bfff); --sjc-series: #717fe6;
+  --on-fill: #1a1530; --water: #1fa89e; --violet: #a993ff; --band-alpha: 9%;
+  color-scheme: dark;
+}
+#app { --acc: var(--cps); --acc-fill: var(--cps-fill); --series: var(--cps-series);
+  --acc-soft: color-mix(in srgb, var(--cps-series) 16%, transparent);
+  --band: color-mix(in srgb, var(--cps-series) var(--band-alpha), transparent); }
+#app[data-local="SJC"] { --acc: var(--sjc); --acc-fill: var(--sjc-fill); --series: var(--sjc-series);
+  --acc-soft: color-mix(in srgb, var(--sjc-series) 16%, transparent);
+  --band: color-mix(in srgb, var(--sjc-series) var(--band-alpha), transparent); }
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { background: var(--bg); color: var(--label); font: 400 15px/1.5 var(--font); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30;
+  background: color-mix(in srgb, var(--bg) 58%, transparent); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); }
+button, input, select { font: inherit; color: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+a { color: var(--acc); }
+:focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; border-radius: 10px; }
+.wrap { width: 100%; max-width: 680px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* chalk haze: three soft clouds that drift slowly behind everything */
+.haze { position: fixed; inset: -25%; z-index: -1; pointer-events: none; will-change: transform;
+  background:
+    radial-gradient(36% 30% at 20% 16%, var(--haze-1), transparent 72%),
+    radial-gradient(40% 34% at 84% 14%, var(--haze-2), transparent 72%),
+    radial-gradient(46% 38% at 56% 90%, var(--haze-3), transparent 72%),
+    radial-gradient(28% 24% at 12% 68%, var(--haze-2), transparent 72%);
+  animation: drift 60s var(--ease) infinite alternate; }
+@keyframes drift { from { transform: translate3d(0, 0, 0) rotate(0deg); } to { transform: translate3d(-4%, 3%, 0) rotate(6deg); } }
+
+/* glass: every card is frosted white (by night, smoked) with a bright rim and a soft lilac glow */
+.ex, .panel, .stat, .empty, .tbl, .banner { background: var(--surface); border: 1px solid var(--edge); box-shadow: var(--glow); border-radius: var(--r-lg); }
+
+/* header ----------------------------------------------------------------- */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--bg) 58%, transparent);
+  -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%);
+  border-bottom: 1px solid var(--sep); }
+.head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px 12px; align-items: center; padding-block: 12px 14px; }
+.brand { min-width: 0; }
+.brand h1 { margin: 0; font: italic 500 26px/1.05 var(--display); letter-spacing: .005em; }
+.sync { margin: 3px 0 0; font-size: 12px; color: var(--label-2); display: flex; align-items: center; gap: 7px; min-width: 0; }
+.sync span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dot { flex: 0 0 auto; width: 7px; height: 7px; border-radius: 50%; background: var(--label-3); }
+.dot.live { background: var(--good-mark); box-shadow: 0 0 0 3px color-mix(in srgb, var(--good-mark) 22%, transparent); }
+.dot.warn { background: var(--warn-mark); box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn-mark) 22%, transparent); }
+.head-links { display: flex; gap: 8px; }
+.icon-btn { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--edge);
+  background: var(--surface); box-shadow: var(--glow); color: var(--acc); cursor: pointer; text-decoration: none; }
+.icon-btn svg, .tabs svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.controls { grid-column: 1 / -1; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.seg { display: inline-flex; flex: 1 1 200px; max-width: 340px; background: var(--surface-3); border-radius: 14px; padding: 3px; }
+.seg button { flex: 1; border: 0; background: transparent; padding: 7px 12px; border-radius: 11px; font-size: 14px; font-weight: 500; color: var(--label-2); cursor: pointer; transition: background var(--fast) var(--ease), color var(--fast); }
+.seg button[aria-checked="true"] { background: var(--surface-strong); color: var(--acc); font-weight: 700; box-shadow: var(--glow); }
+.switch { display: inline-flex; gap: 8px; align-items: center; font-size: 14px; color: var(--label-2); cursor: pointer; user-select: none; }
+.switch input { appearance: none; -webkit-appearance: none; margin: 0; flex: 0 0 auto; width: 46px; height: 28px; border-radius: 14px; background: var(--surface-3); position: relative; cursor: pointer; transition: background var(--fast); }
+.switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 2px 6px rgba(40, 30, 80, .25); transition: transform var(--fast) var(--ease); }
+.switch input:checked { background: var(--acc-fill); }
+.switch input:checked::after { transform: translateX(18px); }
+
+/* layout ------------------------------------------------------------------- */
+main { padding-block: 18px calc(118px + env(safe-area-inset-bottom, 0px)); }
+.stack { display: grid; gap: 14px; }
+.sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 4px 12px; flex-wrap: wrap; margin: 8px 4px 0; }
+.sec-h h2 { margin: 0; font: 500 34px/1.05 var(--display); letter-spacing: -.005em; text-wrap: balance; }
+.sec-h h3 { margin: 0; font-size: 17px; font-weight: 600; }
+.sub { color: var(--label-2); font-size: 13px; margin: 0 4px; }
+.banner { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 12px 14px; font-size: 13px; color: var(--label-2); margin-bottom: 14px; box-shadow: inset 3px 0 0 var(--warn-mark), var(--glow); }
+.banner.info { box-shadow: inset 3px 0 0 var(--label-3), var(--glow); }
+.banner p { margin: 0; flex: 1 1 240px; min-width: 0; }
+.banner strong { color: var(--label); font-weight: 600; }
+
+/* chips -------------------------------------------------------------------- */
+.chips { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.chip { border: 1px solid var(--edge); background: var(--surface); padding: 9px 4px; border-radius: 999px; font-size: 14px; font-weight: 500; display: inline-flex; gap: 6px; align-items: center; justify-content: center; cursor: pointer; white-space: nowrap; color: var(--label); transition: background var(--fast), box-shadow var(--fast); }
+.chip[aria-pressed="true"] { background: var(--acc-fill); color: var(--on-fill); font-weight: 700; box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--series) 70%, transparent); }
+.nextdot { width: 7px; height: 7px; border-radius: 50%; background: var(--series); flex: 0 0 auto; }
+.chip[aria-pressed="true"] .nextdot { background: var(--on-fill); }
+
+/* exercise cards ----------------------------------------------------------- */
+.list { display: grid; gap: 12px; }
+.ex { padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.ex-h { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; }
+.ex-n { width: 26px; height: 26px; border-radius: 50%; background: var(--acc-soft); color: var(--acc); font-size: 12px; font-weight: 700; display: grid; place-items: center; font-variant-numeric: tabular-nums; }
+.ex-name { margin: 0; font-size: 16px; font-weight: 600; letter-spacing: -.005em; line-height: 1.3; }
+.ex-meta { margin: 3px 0 0; font-size: 13px; color: var(--label-2); }
+.ex-meta b { color: var(--label); font-weight: 600; }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; color: var(--label-2); background: var(--surface-2); border: 1px solid var(--sep); padding: 0 8px; border-radius: 999px; margin-left: 6px; vertical-align: 1px; white-space: nowrap; }
+.rx-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px 16px; flex-wrap: wrap; }
+.rx-k { font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--label-2); font-weight: 600; }
+.rx { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.rx-num { font-size: 36px; font-weight: 300; letter-spacing: -.025em; line-height: 1; }
+.rx-u { font-size: 14px; font-weight: 500; color: var(--label-2); }
+.rx-x { font-size: 18px; font-weight: 300; color: var(--label-3); padding-inline: 2px; }
+.rx-rir { font-size: 12px; font-weight: 600; color: var(--label-2); background: var(--surface-2); border: 1px solid var(--sep); border-radius: 999px; padding: 2px 8px; align-self: center; }
+.pips { display: inline-flex; gap: 2px; align-self: center; margin-left: 2px; flex-wrap: wrap; max-width: 140px; }
+.pips i { width: 4px; height: 14px; border-radius: 2px; background: var(--series); opacity: .75; }
+.why { margin: 0; font-size: 13px; color: var(--label-2); }
+.backoff { margin: 0; font-size: 13px; color: var(--label-2); }
+.backoff b { color: var(--label); font-weight: 600; }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--sep); color: var(--label); white-space: nowrap; }
+.pill.up { background: var(--acc-soft); border-color: transparent; color: var(--acc); }
+.pill.good { background: color-mix(in srgb, var(--good-mark) 16%, transparent); border-color: transparent; color: var(--good); }
+.pill.warn { background: color-mix(in srgb, var(--warn-mark) 20%, transparent); border-color: transparent; color: var(--warn); }
+.done { display: grid; gap: 4px; font-size: 14px; }
+.done b { font-weight: 600; }
+.ex-f { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.spark { display: block; width: 120px; height: 32px; }
+.btn { border: 1px solid var(--sep); border-radius: 999px; padding: 9px 16px; font-size: 14px; font-weight: 600; cursor: pointer; background: var(--surface-2); color: var(--acc); transition: transform var(--fast) var(--ease), box-shadow var(--fast), opacity var(--fast); white-space: nowrap; }
+.btn.primary { background: var(--acc-fill); color: var(--on-fill); border-color: var(--edge); box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--series) 70%, transparent); }
+.btn:active { transform: scale(.98); }
+.btn[disabled] { opacity: .5; cursor: default; }
+.btns { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* forms -------------------------------------------------------------------- */
+.log { border-top: 1px solid var(--sep); padding-top: 14px; display: grid; gap: 12px; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 10px; }
+.fld { display: grid; gap: 6px; font-size: 12px; font-weight: 600; color: var(--label-2); min-width: 0; }
+.fld.wide { grid-column: 1 / -1; }
+.fld input, .fld select { width: 100%; min-width: 0; border: 1px solid var(--sep); background: var(--surface-2); border-radius: 14px; padding: 10px 12px; font-size: 16px; font-weight: 500; color: var(--label); transition: border-color var(--fast), box-shadow var(--fast); }
+.fld input:focus, .fld select:focus { outline: none; border-color: var(--acc); box-shadow: 0 0 0 3px var(--acc-soft); }
+.stepper { display: grid; grid-template-columns: 40px minmax(0, 1fr) 40px; background: var(--surface-2); border: 1px solid var(--sep); border-radius: 14px; overflow: hidden; }
+.stepper button { border: 0; background: transparent; font-size: 20px; font-weight: 300; line-height: 1; color: var(--acc); cursor: pointer; }
+.fld .stepper input { border: 0; background: transparent; text-align: center; padding: 10px 0; font-weight: 600; font-variant-numeric: tabular-nums; border-radius: 0; box-shadow: none; }
+.form-err { margin: 0; color: var(--bad); font-size: 13px; }
+.hint { margin: 0; font-size: 12px; color: var(--label-2); }
+
+/* panels, stats, charts ---------------------------------------------------- */
+.panel { padding: 16px; display: grid; gap: 12px; min-width: 0; }
+.panel.flush { padding: 0; gap: 0; }
+.panel.flush > .panel-h { padding: 16px 16px 6px; }
+.panel-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.panel-h h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 12px; }
+.stat { border-radius: var(--r); padding: 14px; min-width: 0; }
+.stat .l { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--label-2); }
+.stat .v { font-size: 26px; font-weight: 300; letter-spacing: -.02em; margin-top: 4px; }
+.stat .v small { font-size: 13px; font-weight: 500; color: var(--label-2); letter-spacing: 0; }
+.stat .d { font-size: 12px; color: var(--label-2); margin-top: 2px; }
+.chart { position: relative; width: 100%; min-width: 0; }
+.chart svg { display: block; width: 100%; overflow: visible; touch-action: pan-y; }
+.chart svg:focus-visible { outline-offset: 4px; }
+.chart text { font-family: var(--font); font-variant-numeric: tabular-nums; }
+.tip { position: absolute; z-index: 3; pointer-events: none; background: var(--surface-strong); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); color: var(--label-2); border: 1px solid var(--edge); border-radius: 14px; padding: 8px 11px; font-size: 12px; line-height: 1.35; box-shadow: var(--glow); white-space: nowrap; }
+.tip b { display: block; color: var(--label); font-size: 14px; font-weight: 700; }
+.legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: var(--label-2); }
+.key { display: inline-flex; align-items: center; gap: 6px; }
+.key i { width: 18px; border-top: 2px solid var(--series); }
+.key i.dash { border-top-style: dashed; }
+.key i.band { height: 10px; border: 0; border-radius: 3px; background: var(--band); }
+.key i.goal { border-top: 1.5px dashed var(--label-3); }
+.key i.water { border-top: 0; height: 10px; border-radius: 3px; background: var(--water); }
+.key i.violet { border-top-color: var(--violet); }
+.tbl { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+caption { text-align: left; padding: 14px 16px 4px; font: italic 500 21px/1.2 var(--display); color: var(--label); }
+th { text-align: left; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--label-2); padding: 8px 16px; border-bottom: 1px solid var(--sep); white-space: nowrap; }
+td { padding: 10px 16px; border-bottom: 1px solid var(--sep); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+.num { text-align: right; white-space: nowrap; }
+.muted { color: var(--label-2); }
+.grp { display: grid; grid-template-columns: minmax(84px, 120px) minmax(60px, 1fr) 34px 96px; gap: 10px; align-items: center; padding: 11px 16px; border-bottom: 1px solid var(--sep); font-size: 14px; }
+.grp:last-child { border-bottom: 0; }
+.grp .n { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.hbar { height: 8px; border-radius: 4px; background: var(--surface-3); overflow: hidden; }
+.hbar i { display: block; height: 100%; border-radius: 4px; background: var(--series); }
+.mini { display: block; width: 96px; height: 24px; }
+.meter { height: 10px; border-radius: 5px; background: var(--surface-3); overflow: hidden; }
+.meter i { display: block; height: 100%; border-radius: 5px; background: linear-gradient(90deg, color-mix(in srgb, var(--water) 45%, #ffffff), var(--water)); transition: width .4s var(--ease); }
+.big { font-size: 42px; font-weight: 300; letter-spacing: -.03em; line-height: 1.05; }
+.big small { font-size: 15px; font-weight: 500; color: var(--label-2); letter-spacing: 0; }
+.empty { padding: 20px 18px; color: var(--label-2); font-size: 14px; }
+.empty strong { display: block; color: var(--label); font: italic 500 20px/1.25 var(--display); margin-bottom: 4px; }
+.days { display: grid; }
+.day { display: grid; gap: 2px; padding: 11px 16px; border-bottom: 1px solid var(--sep); font-size: 14px; }
+.day:last-child { border-bottom: 0; }
+.day-h { display: flex; justify-content: space-between; gap: 10px; font-weight: 600; }
+.day-h span:last-child { font-weight: 500; color: var(--label-2); font-variant-numeric: tabular-nums; }
+.day p { margin: 0; color: var(--label-2); font-size: 13px; }
+.about { font-size: 13px; color: var(--label-2); margin: 0; }
+
+/* floating tab bar & toast ------------------------------------------------- */
+.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; pointer-events: none;
+  padding: 0 max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.tabs-in { pointer-events: auto; max-width: 460px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 5px;
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid var(--edge); border-radius: 999px; box-shadow: var(--glow); }
+.tabs a { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 6px 0 5px; border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--label-2); text-decoration: none; transition: background var(--fast), color var(--fast); }
+.tabs a[aria-current="page"] { color: var(--acc); background: var(--acc-soft); }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(92px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: max-content; max-width: min(92vw, 520px);
+  background: var(--surface-strong); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); color: var(--label);
+  border: 1px solid var(--edge); padding: 11px 16px; border-radius: 18px; font-size: 14px; font-weight: 500; box-shadow: var(--glow); }
+.toast.error { box-shadow: inset 3px 0 0 var(--bad-mark), var(--glow); }
+@media (max-width: 420px) {
+  .grp { grid-template-columns: minmax(80px, 1fr) minmax(60px, 1.4fr) 30px; }
+  .grp .mini { display: none; }
+  .rx-num { font-size: 32px; }
+  .sec-h h2 { font-size: 30px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div id="app" data-local="Campinas">
+  <div class="haze" aria-hidden="true"></div>
+  <header class="top">
+    <div class="wrap head">
+      <div class="brand">
+        <h1>Caderno de Carga</h1>
+        <p class="sync" id="sync"><i class="dot"></i><span>Carregando…</span></p>
+      </div>
+      <div class="head-links">
+        <a class="icon-btn" id="sheetLink" href="https://docs.google.com/spreadsheets/" target="_blank" rel="noopener" aria-label="Abrir a planilha no Google Planilhas" title="Abrir a planilha">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M4 10h16M10 4v16"/></svg>
+        </a>
+        <a class="icon-btn" href="#ajustes" aria-label="Ajustes" title="Ajustes">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
+        </a>
+      </div>
+      <div class="controls">
+        <div class="seg" role="radiogroup" aria-label="Local do treino">
+          <button type="button" role="radio" aria-checked="true" data-action="local" data-value="Campinas">Campinas</button>
+          <button type="button" role="radio" aria-checked="false" data-action="local" data-value="SJC">SJC</button>
+        </div>
+        <label class="switch"><input type="checkbox" id="rirToggle" checked> <span>Contar RIR</span></label>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="banner"></div>
+    <div id="view"></div>
+  </main>
+
+  <nav class="tabs" aria-label="Seções">
+    <div class="tabs-in">
+      <a href="#treino" data-tab="treino"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 9.5v5M6.5 7v10M17.5 7v10M20.5 9.5v5M6.5 12h11"/></svg>Treino</a>
+      <a href="#evolucao" data-tab="evolucao"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18l5-6 4 3 7-8"/><path d="M15 7h5v5"/></svg>Evolução</a>
+      <a href="#volume" data-tab="volume"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20v-8M10 20V6M15 20v-6M20 20V9"/></svg>Volume</a>
+      <a href="#diario" data-tab="diario"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c3 4 6 7.2 6 10.5a6 6 0 0 1-12 0c0-3.3 3-6.5 6-10.5z"/></svg>Diário</a>
+    </div>
+  </nav>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</div>
+
+<script>/*@ENGINE*/</script>
+<script>
+(function () {
+  'use strict'
+  var E = window.Engine
+  var SHEET_ID_BUILD = '__SHEET_ID__'
+  const SNAPSHOT = /*@SNAPSHOT*/null;
+  var SERVER = 'Google Sheets'
+  var TABS = ['registros', 'exercicios', 'diario']
+  var RANGES = { registros: 'Registros!A:J', exercicios: "'Exercícios'!A:L", diario: "'Diário'!A:L" }
+  var APPEND_AT = { registros: 'Registros!A1', diario: "'Diário'!A1" }
+  var LOCAIS = ['Campinas', 'SJC']
+  var VIEWS = ['treino', 'evolucao', 'volume', 'diario', 'ajustes']
+  var MEALS = { cafe: 'Café da manhã', almoco: 'Almoço', lanche: 'Lanche', jantar: 'Jantar', outros: 'Outros' }
+  var MEAL_COL = { cafe: 2, almoco: 3, lanche: 4, jantar: 5, outros: 6 }
+
+  // ------------------------------------------------------------ small helpers
+  var store = {
+    get: function (k, d) { try { var v = localStorage.getItem('cdc:' + k); return v == null ? d : JSON.parse(v) } catch (e) { return d } },
+    set: function (k, v) { try { localStorage.setItem('cdc:' + k, JSON.stringify(v)) } catch (e) {} }
+  }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    })
+  }
+  function $(id) { return document.getElementById(id) }
+  var fmt = E.fmt
+  function fmt1(n) { return fmt(Math.round(n * 10) / 10) }
+  function load(n, u) { return n == null ? '—' : fmt(n) + ' ' + E.unitLabel(u, n) }
+  function dateObj(iso) { var p = iso.split('-'); return new Date(+p[0], +p[1] - 1, +p[2], 12) }
+  function fmtDay(iso) { return iso ? dateObj(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) : '' }
+  function fmtDayLong(iso) { return dateObj(iso).toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' }) }
+  function fmtTime(ts) { return new Date(ts).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) }
+  function plural(n, one, many) { return n + ' ' + (n === 1 ? one : many) }
+  function sheetId() { return store.get('sheetId', '') || SHEET_ID_BUILD }
+  function idFromLink(v) { var m = String(v || '').match(/\/d\/([a-zA-Z0-9_-]{20,})/); return m ? m[1] : String(v || '').trim() }
+
+  function snapshotRaw() {
+    var s = SNAPSHOT || {}
+    return {
+      registros: s.registros || [E.SCHEMA.registros],
+      exercicios: s.exercicios || [E.SCHEMA.exercicios],
+      diario: s.diario || [E.SCHEMA.diario]
+    }
+  }
+
+  // ------------------------------------------------------------ state
+  var S = {
+    raw: snapshotRaw(), source: 'snapshot', conn: 'connecting', err: null, fresh: null,
+    local: store.get('local', null), countRIR: store.get('countRIR', true),
+    view: 'treino', treino: null, exKey: store.get('exKey', null),
+    open: null, form: null, formErr: '', waterGoal: store.get('waterGoal', 4), saving: false
+  }
+  var D = null
+  var live = { mcp: null, watching: false, unsubs: [] }
+
+  function derive() {
+    var sets = E.parseRegistros(S.raw.registros)
+    var plan = E.parseExercicios(S.raw.exercicios)
+    var diaryRows = E.parseDiario(S.raw.diario)
+    D = { sets: sets, plan: plan, days: E.dailyDiary(diaryRows), today: E.todayISO() }
+    if (LOCAIS.indexOf(S.local) < 0) S.local = latestLocal(sets) || 'Campinas'
+    if (E.ROTATION.indexOf(S.treino) < 0) S.treino = defaultTreino()
+  }
+  function latestLocal(sets) {
+    var best = null
+    sets.forEach(function (s) {
+      if (s.local && !s.baseline && (!best || s.date > best.date || (s.date === best.date && s.row >= best.row))) best = s
+    })
+    return best && best.local
+  }
+  // during a workout keep today's workout selected; otherwise suggest the next in the rotation
+  function defaultTreino() {
+    var today = D.sets.filter(function (s) { return s.date === D.today && !s.baseline && E.ROTATION.indexOf(s.treino) >= 0 })
+    if (today.length) return today.reduce(function (a, b) { return b.row >= a.row ? b : a }).treino
+    return E.nextWorkout(D.sets)
+  }
+
+  function planRowsFor(treino, local) { return E.workoutRows(D.plan, treino, local) }
+  function exercisesAt(local) {
+    var out = [], seen = {}
+    E.ROTATION.forEach(function (t) {
+      planRowsFor(t, local).forEach(function (r) { if (!seen[r.key]) { seen[r.key] = true; out.push({ row: r, treino: t }) } })
+    })
+    D.sets.forEach(function (s) {
+      if (s.local !== local || seen[s.key]) return
+      seen[s.key] = true
+      var row = E.planFor(D.plan, s.key, local, s.unidade)
+      if (row.synthetic) row = Object.assign({}, row, { exercicio: s.exercicio })
+      out.push({ row: row, treino: E.ROTATION.indexOf(s.treino) >= 0 ? s.treino : 'Fora do plano' })
+    })
+    return out
+  }
+  function rowByKey(key) {
+    var hit = null
+    exercisesAt(S.local).forEach(function (x) { if (x.row.key === key) hit = x.row })
+    return hit
+  }
+
+  /** Everything one exercise card or chart needs, for one gym. */
+  function model(row, local) {
+    var opts = { countRIR: S.countRIR }
+    var sessions = E.sessionsFor(D.sets, row, local, opts)
+    var split = E.splitToday(sessions, D.today), doneToday = split.doneToday, before = split.before
+    var ref = null
+    if (!sessions.length && row.local !== 'Ambos') {
+      var other = local === 'SJC' ? 'Campinas' : 'SJC'
+      var orow = E.planFor(D.plan, row.key, other)
+      var os = E.sessionsFor(D.sets, orow, other, opts)
+      if (os.length) ref = { local: other, top: os[os.length - 1].top, unidade: orow.unidade, date: os[os.length - 1].date }
+    }
+    return {
+      row: row, local: local, sessions: sessions, before: before, doneToday: doneToday,
+      rx: E.nextPrescription(before, row, opts),
+      rxNext: doneToday ? E.nextPrescription(sessions, row, opts) : null,
+      sim: E.simulate(sessions, row, opts, 6), status: E.status(sessions), ref: ref
+    }
+  }
+
+  // ------------------------------------------------------------ Google Sheets via the mcp capability
+  function inputFor(tab) { return { spreadsheetId: sheetId(), range: RANGES[tab] } }
+
+  async function connect() {
+    if (!sheetId()) { S.conn = 'nosheet'; renderChrome(); return }
+    var mcp = null
+    try { mcp = window.claude && typeof window.claude.use === 'function' ? await window.claude.use('mcp') : null } catch (e) { mcp = null }
+    if (!mcp) { S.conn = 'offline'; renderChrome(); return }
+    live.mcp = mcp
+    watchAll()
+  }
+  function stopWatches() { live.unsubs.forEach(function (u) { try { u() } catch (e) {} }); live.unsubs = [] }
+  function watchAll() {
+    stopWatches()
+    live.watching = true
+    TABS.forEach(function (tab) {
+      try {
+        live.unsubs.push(live.mcp.watchTool(SERVER, 'get_values', inputFor(tab), function (ev) {
+          if (ev.type === 'data') onData(tab, ev.result)
+          else onError(tab, ev.error || {}, true)
+        }, { cache: { staleTime: 30000, gcTime: 600000 }, refetchInterval: 120000 }))
+      } catch (e) { live.watching = false }
+    })
+    if (!live.watching) { stopWatches(); loadAll() }
+  }
+  async function loadAll() {
+    for (var i = 0; i < TABS.length; i++) {
+      var tab = TABS[i]
+      try { onData(tab, await live.mcp.callTool(SERVER, 'get_values', inputFor(tab), { cache: false })) } catch (e) { onError(tab, e, false) }
+    }
+  }
+  async function refresh() {
+    if (!live.mcp) { toast('Sem conexão com a planilha nesta tela.'); return }
+    if (live.watching) {
+      try { await live.mcp.invalidate(SERVER, 'get_values'); return } catch (e) { /* older shells: reload by hand */ }
+    }
+    loadAll()
+  }
+  function valuesOf(result) {
+    var p = result && result.payload
+    if (typeof p === 'string') { try { p = JSON.parse(p) } catch (e) { p = null } }
+    if (p && Array.isArray(p.values)) return p.values
+    if (p && typeof p === 'object' && 'range' in p) return []   // empty range comes back with no values key
+    return null
+  }
+  function onData(tab, result) {
+    var values = valuesOf(result)
+    if (!values) { onError(tab, { code: 'tool_error', message: 'resposta inesperada do conector' }, false); return }
+    S.raw[tab] = values.length ? values : [E.SCHEMA[tab]]
+    S.fresh = (result.cache && result.cache.storedAt) || Date.now()
+    S.source = 'live'; S.conn = 'live'; S.err = null
+    derive(); scheduleRender()
+  }
+  var DENIED = ['needs_reauth', 'server_not_connected', 'selection_required', 'blocked_by_policy', 'approval_required', 'not_in_manifest', 'server_not_found']
+  function onError(tab, err, fromWatch) {
+    var code = err && err.code ? err.code : 'upstream_error'
+    if (fromWatch && code === 'bad_request' && live.watching) { live.watching = false; stopWatches(); loadAll(); return }
+    if (code === 'not_granted' || code === 'capability_disabled' || code === 'capability_removed') { S.conn = 'offline'; renderChrome(); return }
+    if (DENIED.indexOf(code) >= 0) {
+      // access is gone: drop the connector's rows and fall back to the page's own snapshot
+      if (S.source === 'live') { S.raw = snapshotRaw(); S.source = 'snapshot'; derive() }
+      S.conn = 'denied'
+    } else {
+      S.conn = S.source === 'live' ? 'stale' : 'error'
+    }
+    S.err = { code: code, message: (err && err.message) || '', tab: tab }
+    scheduleRender()
+  }
+  async function askAccess() {
+    try {
+      var r = await live.mcp.callTool(SERVER, 'get_values', inputFor('registros'), { cache: { staleTime: 30000, gcTime: 600000 } })
+      onData('registros', r); watchAll()
+    } catch (e) { onError('registros', e, false) }
+  }
+
+  /** Append one row; the row shows at once and is rolled back if the sheet refuses it. */
+  async function appendRow(tab, values, okText) {
+    if (!live.mcp || S.conn === 'offline' || S.conn === 'nosheet') { copyRow(values); return false }
+    S.raw[tab] = S.raw[tab].concat([values])
+    S.saving = true
+    derive(); render()
+    try {
+      await live.mcp.callTool(SERVER, 'append_values', { spreadsheetId: sheetId(), range: APPEND_AT[tab], values: [values] })
+      S.saving = false
+      toast(okText)
+      refresh()
+      return true
+    } catch (err) {
+      S.saving = false
+      S.raw[tab] = S.raw[tab].filter(function (r) { return r !== values })
+      derive(); render()
+      var code = err && err.code
+      if (code === 'server_unavailable' || code === 'upstream_error' || code === 'cancelled') {
+        toast('Não deu para confirmar se salvou. Atualizando para conferir antes de tentar de novo.', true)
+        refresh()
+      } else {
+        toast(writeError(code, err && err.message), true)
+      }
+      return false
+    }
+  }
+  function writeError(code, message) {
+    switch (code) {
+      case 'needs_reauth': return 'Reconecte o Google Sheets em claude.ai > Configurações > Conectores e salve de novo.'
+      case 'server_not_connected': return 'Adicione o conector Google Sheets em claude.ai > Configurações > Conectores.'
+      case 'approval_required': case 'not_in_manifest': return 'O painel precisa da sua permissão para gravar na planilha. Toque em Salvar de novo e permita.'
+      case 'blocked_by_policy': return 'A sua organização bloqueou a gravação por esse conector.'
+      case 'tool_error': return 'A planilha recusou a linha' + (message ? ': ' + message : '.')
+      default: return 'Não foi possível salvar (' + (code || 'erro') + ').'
+    }
+  }
+  function copyRow(values) {
+    var shown = values.map(function (v, i) { return i === 0 && typeof v === 'number' ? fmtDay(E.fromSerial(v)) + '/' + E.fromSerial(v).slice(0, 4) : String(v).replace('.', ',') })
+    var text = shown.join('\t')
+    var done = function () { toast('Sem conexão aqui: a linha foi copiada. Cole na planilha.') }
+    try {
+      navigator.clipboard.writeText(text).then(done, function () { toast('Sem conexão aqui. Linha: ' + shown.join(' | '), true) })
+    } catch (e) { toast('Sem conexão aqui. Linha: ' + shown.join(' | '), true) }
+  }
+
+  // ------------------------------------------------------------ rendering
+  var queued = false, pending = false
+  function editing() {
+    var a = document.activeElement
+    return !!(a && a.closest && a.closest('form') && /^(INPUT|SELECT|TEXTAREA)$/.test(a.tagName))
+  }
+  function scheduleRender() {
+    if (queued) return
+    queued = true
+    requestAnimationFrame(function () {
+      queued = false
+      renderChrome()
+      if (editing()) { pending = true; return }
+      renderView()
+    })
+  }
+  document.addEventListener('focusout', function () {
+    setTimeout(function () { if (pending && !editing()) { pending = false; renderView() } }, 0)
+  })
+  function render() { renderChrome(); renderView() }
+
+  function renderChrome() {
+    var app = $('app')
+    app.setAttribute('data-local', S.local || 'Campinas')
+    document.querySelectorAll('.seg button').forEach(function (b) { b.setAttribute('aria-checked', String(b.dataset.value === S.local)) })
+    $('rirToggle').checked = !!S.countRIR
+    var id = sheetId()
+    $('sheetLink').href = id ? 'https://docs.google.com/spreadsheets/d/' + encodeURIComponent(id) + '/edit' : 'https://docs.google.com/spreadsheets/'
+    document.querySelectorAll('.tabs a').forEach(function (a) {
+      if (a.dataset.tab === S.view) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current')
+    })
+    var snapDate = SNAPSHOT && SNAPSHOT.date ? fmtDay(SNAPSHOT.date) : ''
+    var dot = 'dot', line = ''
+    if (S.conn === 'live') { dot += ' live'; line = 'Planilha ao vivo · atualizada às ' + fmtTime(S.fresh || Date.now()) }
+    else if (S.conn === 'stale') { dot += ' warn'; line = 'Últimos dados de ' + fmtTime(S.fresh || Date.now()) + ' · planilha sem resposta' }
+    else if (S.conn === 'connecting') { line = 'Instantâneo de ' + snapDate + ' · conectando à planilha…' }
+    else { dot += ' warn'; line = 'Instantâneo de ' + snapDate + ' · planilha não conectada' }
+    $('sync').innerHTML = '<i class="' + dot + '"></i><span>' + esc(line) + '</span>'
+    $('banner').innerHTML = bannerHtml()
+  }
+
+  function bannerHtml() {
+    var c = S.conn, code = S.err && S.err.code
+    var snap = SNAPSHOT && SNAPSHOT.date ? fmtDay(SNAPSHOT.date) : 'hoje'
+    function b(text, button, info) {
+      return '<div class="banner' + (info ? ' info' : '') + '"><p>' + text + '</p>' + (button || '') + '</div>'
+    }
+    if (c === 'nosheet') return b('<strong>Falta o link da planilha.</strong> Cole em Ajustes para o painel ler os seus treinos.', '<a class="btn" href="#ajustes">Abrir ajustes</a>')
+    if (c === 'offline') return b('<strong>Sem acesso à planilha nesta tela.</strong> Você vê o instantâneo de ' + snap + '. Para ver e registrar ao vivo, abra o painel no claude.ai com o conector Google Sheets. Aqui, o botão de salvar copia a linha para você colar.', '', true)
+    if (c === 'denied') {
+      if (code === 'needs_reauth') return b('<strong>O acesso ao Google Sheets expirou.</strong> Reconecte em claude.ai > Configurações > Conectores. Enquanto isso, você vê o instantâneo de ' + snap + '.')
+      if (code === 'server_not_connected' || code === 'server_not_found') return b('<strong>Conector Google Sheets não encontrado.</strong> Adicione em claude.ai > Configurações > Conectores para ler a sua planilha.')
+      if (code === 'selection_required') return b('<strong>Há mais de um conector Google Sheets.</strong> Escolha qual usar no aviso do claude.ai.')
+      if (code === 'blocked_by_policy') return b('<strong>A sua organização bloqueou esse conector</strong> para este painel.')
+      return b('<strong>O painel precisa da sua permissão</strong> para ler a planilha Caderno de Carga.', '<button class="btn primary" type="button" data-action="access">Permitir acesso</button>')
+    }
+    if (c === 'stale' || c === 'error') {
+      if (code === 'tool_error') return b('<strong>A planilha recusou a leitura</strong>' + (S.err.message ? ': ' + esc(S.err.message) : '') + '. Confira o link em Ajustes.', '<button class="btn" type="button" data-action="refresh">Tentar de novo</button>')
+      return b('<strong>A planilha não respondeu agora.</strong> ' + (c === 'stale' ? 'Mostrando os últimos dados.' : 'Mostrando o instantâneo de ' + snap + '.'), '<button class="btn" type="button" data-action="refresh">Tentar de novo</button>')
+    }
+    return ''
+  }
+
+  var charts = []
+  function renderView() {
+    if (!D) derive()
+    charts = []
+    var html = S.view === 'evolucao' ? viewEvolucao() : S.view === 'volume' ? viewVolume()
+      : S.view === 'diario' ? viewDiario() : S.view === 'ajustes' ? viewAjustes() : viewTreino()
+    $('view').innerHTML = html
+    drawCharts()
+  }
+  function drawCharts() { charts.forEach(function (c) { var el = $(c.id); if (el) c.draw(el) }) }
+  var resizeT = null
+  window.addEventListener('resize', function () { clearTimeout(resizeT); resizeT = setTimeout(drawCharts, 120) })
+
+  // ------------------------------------------------------------ view: Treino
+  var KIND = {
+    up: ['up', '▲ Sobe carga'], hold: ['', '+1 rep'], reps: ['', '+ reps antes de subir'],
+    deload: ['warn', '▼ Deload'], first: ['', 'Primeira vez aqui']
+  }
+  function rxBlock(rx, row, label) {
+    var u = row.unidade
+    if (rx.carga == null) {
+      return '<div class="rx-row"><div><div class="rx-k">' + esc(label) + '</div>' +
+        '<div class="rx"><span class="rx-num">~' + rx.reps + '</span><span class="rx-u">reps · carga a definir (' + esc(u) + ')</span></div></div>' +
+        '<span class="pill">Base</span></div><p class="why">' + esc(rx.why) + '</p>'
+    }
+    var num = '<span class="rx-num">' + esc(fmt(rx.carga)) + '</span><span class="rx-u">' + esc(E.unitLabel(u, rx.carga)) + '</span>'
+    var pips = u === 'placas' && rx.carga > 0 && rx.carga <= 24
+      ? '<span class="pips" aria-hidden="true">' + new Array(Math.round(rx.carga) + 1).join('<i></i>') + '</span>' : ''
+    var rir = S.countRIR && rx.rir > 0 ? '<span class="rx-rir">RIR ' + rx.rir + '</span>' : ''
+    var k = KIND[rx.kind] || KIND.hold
+    return '<div class="rx-row"><div><div class="rx-k">' + esc(label) + '</div>' +
+      '<div class="rx">' + num + pips + '<span class="rx-x">×</span><span class="rx-num">' + rx.reps + '</span><span class="rx-u">reps</span>' + rir + '</div></div>' +
+      '<span class="pill ' + k[0] + '">' + esc(k[1]) + '</span></div>' +
+      '<p class="why">' + esc(rx.why) + '</p>' +
+      (rx.backoff ? '<p class="backoff">Back-off: <b>' + esc(load(rx.backoff.carga, u)) + ' × ' + rx.backoff.reps + '</b></p>' : '')
+  }
+  function lastLine(m) {
+    var u = m.row.unidade, last = m.before[m.before.length - 1]
+    if (last) {
+      var t = last.top
+      return 'Última: <b>' + esc(load(t.carga, u)) + ' × ' + t.reps + '</b>' +
+        (S.countRIR && t.rir != null ? ' · RIR ' + t.rir : '') + ' · ' + esc(fmtDay(last.date)) +
+        (last.baseline ? ' · marca inicial' : '') + (m.row.local === 'Ambos' && last.local !== m.local ? ' · em ' + esc(last.local) : '')
+    }
+    if (m.ref) return 'Sem registro em ' + esc(m.local) + '. Em ' + esc(m.ref.local) + ': ' + esc(load(m.ref.top.carga, m.ref.unidade)) + ' × ' + m.ref.top.reps + ' (máquina diferente)'
+    return 'Sem registro em ' + esc(m.local) + ' ainda'
+  }
+  function card(m, i) {
+    var r = m.row, open = S.open === r.key
+    var tags = r.local === 'Ambos' ? '<span class="tag" title="Mesmo equipamento nos dois locais">Ambos</span>' : ''
+    var body
+    if (m.doneToday) {
+      var u = r.unidade
+      body = '<div class="done"><div class="rx-k">Feito hoje</div>' +
+        m.doneToday.sets.map(function (s) {
+          return '<div>Série ' + esc(s.serie == null ? '' : s.serie) + ': <b>' + esc(load(s.carga, u)) + ' × ' + s.reps + '</b>' + (S.countRIR && s.rir != null ? ' · RIR ' + s.rir : '') + '</div>'
+        }).join('') + '</div>' + rxBlock(m.rxNext, r, 'Próximo treino')
+    } else {
+      body = rxBlock(m.rx, r, 'Hoje')
+    }
+    return '<article class="ex" id="ex-' + i + '">' +
+      '<div class="ex-h"><span class="ex-n">' + (i + 1) + '</span><div><h3 class="ex-name">' + esc(r.exercicio) + tags + '</h3>' +
+      '<p class="ex-meta">' + lastLine(m) + '</p></div></div>' + body +
+      '<div class="ex-f">' + sparkSvg(m) +
+      '<button class="btn' + (open ? '' : ' primary') + '" type="button" data-action="open-form" data-key="' + esc(r.key) + '" aria-expanded="' + open + '">' +
+      (open ? 'Fechar' : 'Registrar série') + '</button></div>' +
+      (open ? logForm(m) : '') + '</article>'
+  }
+  function logForm(m) {
+    var f = S.form || {}, r = m.row
+    function stepper(id, field, value, mode) {
+      return '<span class="stepper"><button type="button" data-action="step" data-field="' + field + '" data-delta="-1" aria-label="Diminuir">−</button>' +
+        '<input id="' + id + '" data-field="' + field + '" inputmode="' + mode + '" autocomplete="off" value="' + esc(value) + '">' +
+        '<button type="button" data-action="step" data-field="' + field + '" data-delta="1" aria-label="Aumentar">+</button></span>'
+    }
+    var offline = !live.mcp || S.conn === 'offline' || S.conn === 'nosheet'
+    return '<form class="log" data-form="serie" data-key="' + esc(r.key) + '" novalidate>' +
+      '<div class="fields">' +
+      '<label class="fld">Série' + stepper('f-serie', 'serie', f.serie, 'numeric') + '</label>' +
+      '<label class="fld">Carga (' + esc(r.unidade) + ')' + stepper('f-carga', 'carga', f.carga == null ? '' : fmt(f.carga), 'decimal') + '</label>' +
+      '<label class="fld">Reps' + stepper('f-reps', 'reps', f.reps, 'numeric') + '</label>' +
+      (S.countRIR ? '<label class="fld">RIR' + stepper('f-rir', 'rir', f.rir == null ? '' : f.rir, 'numeric') + '</label>' : '') +
+      '<label class="fld wide">Obs<input id="f-obs" data-field="obs" autocomplete="off" placeholder="opcional" value="' + esc(f.obs || '') + '"></label>' +
+      '</div>' + (S.formErr ? '<p class="form-err" role="alert">' + esc(S.formErr) + '</p>' : '') +
+      '<div class="btns"><button class="btn primary" type="submit"' + (S.saving ? ' disabled' : '') + '>' + (offline ? 'Copiar linha' : 'Salvar na planilha') + '</button>' +
+      '<button class="btn" type="button" data-action="close-form">Cancelar</button></div>' +
+      '<p class="hint">Grava em Registros: ' + esc(fmtDay(D.today)) + ' · ' + esc(S.local) + ' · ' + esc(S.treino) + '.</p></form>'
+  }
+  function openForm(key) {
+    var row = rowByKey(key)
+    if (!row) return
+    var m = model(row, S.local)
+    var doneSets = m.doneToday ? m.doneToday.sets.length : 0
+    var maxSerie = m.doneToday ? Math.max.apply(null, m.doneToday.sets.map(function (s) { return s.serie || 0 })) : 0
+    // after the top set, prefill the back-off the plan suggests
+    var target = doneSets >= 1 && m.rx.backoff ? m.rx.backoff : m.rx
+    S.open = key; S.formErr = ''
+    S.form = {
+      key: key, serie: Math.max(doneSets, maxSerie) + 1,
+      carga: target.carga != null ? target.carga : (m.ref ? null : null),
+      reps: target.reps, rir: S.countRIR ? (m.rx.rir || 0) : null, obs: ''
+    }
+  }
+  function viewTreino() {
+    var next = E.nextWorkout(D.sets)
+    var rows = planRowsFor(S.treino, S.local)
+    var models = rows.map(function (r) { return model(r, S.local) })
+    var chips = E.ROTATION.map(function (t) {
+      return '<button class="chip" type="button" data-action="treino" data-value="' + t + '" aria-pressed="' + (t === S.treino) + '">' + t +
+        (t === next ? '<i class="nextdot" aria-hidden="true"></i><span class="sr"> (próximo)</span>' : '') + '</button>'
+    }).join('')
+    var ups = models.filter(function (m) { return (m.doneToday ? m.rxNext : m.rx).kind === 'up' }).length
+    var done = models.filter(function (m) { return m.doneToday }).length
+    var lastDates = models.map(function (m) { return m.before.length ? m.before[m.before.length - 1].date : '' }).filter(Boolean).sort()
+    var sub = 'Próximo na rotação: ' + next + ' · ' + plural(rows.length, 'exercício', 'exercícios') + ' · ' + plural(ups, 'sobe carga', 'sobem carga') +
+      (done ? ' · ' + done + ' feito' + (done > 1 ? 's' : '') + ' hoje' : '') +
+      (lastDates.length ? ' · última vez ' + fmtDay(lastDates[lastDates.length - 1]) : '')
+    var list = rows.length
+      ? '<div class="list">' + models.map(card).join('') + '</div>'
+      : '<div class="empty"><strong>Nenhum exercício de ' + esc(S.treino) + ' em ' + esc(S.local) + '.</strong>Adicione linhas na aba Exercícios da planilha com Treino "' + esc(S.treino) + '" e Local "' + esc(S.local) + '" ou "Ambos".</div>'
+    return '<div class="stack">' +
+      '<div class="sec-h"><h2>' + esc(S.treino) + ' em ' + esc(S.local) + '</h2><p class="sub">' + esc(fmtDayLong(D.today)) + '</p></div>' +
+      '<div class="chips" role="group" aria-label="Treino">' + chips + '</div>' +
+      '<p class="sub">' + esc(sub) + '</p>' + list +
+      '<p class="sub">Rotação: Upper A → Lower A → Upper B → Lower B. Faixa padrão 5–8 reps; a regra e os incrementos de cada exercício ficam na aba Exercícios.</p></div>'
+  }
+
+  // ------------------------------------------------------------ charts
+  function niceTicks(min, max, count, integer) {
+    if (!(max > min)) { var pad = Math.abs(min) * 0.05 || 1; min -= pad; max += pad }
+    var raw = (max - min) / (count || 4), pow = Math.pow(10, Math.floor(Math.log10(raw))), step = pow * 10
+    var mults = integer ? [1, 2, 5, 10] : [1, 2, 2.5, 5, 10]
+    for (var i = 0; i < mults.length; i++) if (raw <= mults[i] * pow) { step = mults[i] * pow; break }
+    if (integer) step = Math.max(1, Math.round(step))
+    var lo = Math.floor(min / step) * step, hi = Math.ceil(max / step) * step, ticks = []
+    for (var v = lo; v <= hi + step / 1e6; v += step) ticks.push(Math.round(v * 1e6) / 1e6)
+    return { lo: lo, hi: hi, ticks: ticks }
+  }
+  function sparkSvg(m) {
+    var hist = m.sessions.map(function (s) { return s.top.est }).filter(function (v) { return v != null })
+    var proj = m.sim.map(function (s) { return s.est })
+    if (!hist.length || !proj.length) return '<span></span>'
+    var all = hist.concat(proj), W = 120, H = 32, pad = 4
+    var lo = Math.min.apply(null, all), hi = Math.max.apply(null, all)
+    if (hi === lo) { hi += 1; lo -= 1 }
+    var n = all.length
+    function X(i) { return pad + i * (W - 2 * pad) / Math.max(1, n - 1) }
+    function Y(v) { return H - pad - (v - lo) / (hi - lo) * (H - 2 * pad) }
+    var h = hist.map(function (v, i) { return X(i).toFixed(1) + ',' + Y(v).toFixed(1) }).join(' ')
+    var p = [hist.length - 1].concat(proj.map(function (_, j) { return hist.length + j }))
+      .map(function (i) { return X(i).toFixed(1) + ',' + Y(all[i]).toFixed(1) }).join(' ')
+    var li = hist.length - 1
+    return '<svg class="spark" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="1RM estimado: ' + esc(fmt1(hist[li])) + ', projeção ' + esc(fmt1(proj[proj.length - 1])) + '">' +
+      (hist.length > 1 ? '<polyline points="' + h + '" fill="none" stroke="var(--series)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' : '') +
+      '<polyline points="' + p + '" fill="none" stroke="var(--series)" stroke-width="2" stroke-dasharray="3 3" stroke-linecap="round" opacity=".8"/>' +
+      '<circle cx="' + X(li).toFixed(1) + '" cy="' + Y(hist[li]).toFixed(1) + '" r="3.5" fill="var(--series)" stroke="var(--ring)" stroke-width="2"/></svg>'
+  }
+  function svgEl(W, H, label) {
+    return '<svg width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(label) + '" tabindex="0">'
+  }
+  function hover(el, pts) {
+    var svg = el.querySelector('svg')
+    if (!svg || !pts.length) return
+    var tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; el.appendChild(tip)
+    var xh = svg.querySelector('.xhair'), idx = -1
+    function show(i) {
+      idx = i
+      var p = pts[i]
+      if (xh) { xh.setAttribute('x1', p.x); xh.setAttribute('x2', p.x); xh.style.opacity = 1 }
+      svg.querySelectorAll('.hot').forEach(function (n) { n.style.opacity = n.dataset.i == i ? 1 : 0 })
+      tip.replaceChildren()
+      var b = document.createElement('b'); b.textContent = p.value; tip.appendChild(b)
+      p.lines.forEach(function (t) { var d = document.createElement('div'); d.textContent = t; tip.appendChild(d) })
+      tip.hidden = false
+      var w = el.clientWidth, tw = tip.offsetWidth, th = tip.offsetHeight
+      tip.style.left = Math.max(0, Math.min(w - tw, p.x - tw / 2)) + 'px'
+      tip.style.top = (p.y - th - 12 < 0 ? p.y + 14 : p.y - th - 12) + 'px'
+    }
+    function hide() { idx = -1; tip.hidden = true; if (xh) xh.style.opacity = 0; svg.querySelectorAll('.hot').forEach(function (n) { n.style.opacity = 0 }) }
+    function nearest(clientX) {
+      var r = svg.getBoundingClientRect(), x = (clientX - r.left) * (svg.viewBox.baseVal.width / r.width), best = 0
+      pts.forEach(function (p, i) { if (Math.abs(p.x - x) < Math.abs(pts[best].x - x)) best = i })
+      return best
+    }
+    svg.addEventListener('pointermove', function (e) { show(nearest(e.clientX)) })
+    svg.addEventListener('pointerdown', function (e) { show(nearest(e.clientX)) })
+    svg.addEventListener('pointerleave', hide)
+    svg.addEventListener('focus', function () { show(idx >= 0 ? idx : pts.length - 1) })
+    svg.addEventListener('blur', hide)
+    svg.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault()
+        show(Math.max(0, Math.min(pts.length - 1, (idx < 0 ? pts.length - 1 : idx) + (e.key === 'ArrowLeft' ? -1 : 1))))
+      }
+    })
+  }
+  function gridY(ticks, Y, P, W, unit) {
+    return ticks.map(function (v) {
+      var y = Y(v).toFixed(1)
+      return '<line x1="' + P.l + '" x2="' + (W - P.r) + '" y1="' + y + '" y2="' + y + '" stroke="var(--grid)" stroke-width="1"/>' +
+        '<text x="' + (P.l - 8) + '" y="' + (+y + 4) + '" text-anchor="end" font-size="11" fill="var(--label-3)">' + esc(fmt(v)) + '</text>'
+    }).join('')
+  }
+
+  /** e1RM history (solid) and the rule played forward (dashed, with a widening band). */
+  function evoChart(el, m) {
+    var u = m.row.unidade
+    var hist = m.sessions.filter(function (s) { return s.top.est != null })
+    var W = Math.max(280, el.clientWidth || 560), H = 230, P = { l: 44, r: 16, t: 16, b: 30 }
+    var pts = []
+    hist.forEach(function (s) {
+      pts.push({ y: s.top.est, lab: fmtDay(s.date), kind: 'h', value: fmt1(s.top.est) + ' ' + E.unitLabel(u, 2),
+        lines: ['1RM estimado · ' + fmtDay(s.date), 'Melhor série ' + load(s.top.carga, u) + ' × ' + s.top.reps + (S.countRIR && s.top.rir != null ? ' · RIR ' + s.top.rir : '')] })
+    })
+    m.sim.forEach(function (p, j) {
+      pts.push({ y: p.est, lab: '+' + (j + 1), kind: 'p', lo: p.est * (1 - 0.01 * (j + 1)), hi: p.est * (1 + 0.01 * (j + 1)),
+        value: fmt1(p.est) + ' ' + E.unitLabel(u, 2), lines: ['Projeção · ' + (j + 1) + 'ª sessão', 'Alvo ' + load(p.carga, u) + ' × ' + p.reps + (p.rir ? ' · RIR ' + p.rir : '')] })
+    })
+    var ys = []
+    pts.forEach(function (p) { ys.push(p.y); if (p.lo != null) { ys.push(p.lo); ys.push(p.hi) } })
+    var t = niceTicks(Math.min.apply(null, ys), Math.max.apply(null, ys), 4)
+    var n = pts.length
+    function X(i) { return n <= 1 ? (P.l + W - P.r) / 2 : P.l + i * (W - P.l - P.r) / (n - 1) }
+    function Y(v) { return P.t + (1 - (v - t.lo) / (t.hi - t.lo)) * (H - P.t - P.b) }
+    pts.forEach(function (p, i) { p.x = X(i); p.y0 = p.y; p.y = Y(p.y) })
+    var hN = hist.length, s = svgEl(W, H, 'Evolução do 1RM estimado de ' + m.row.exercicio) + gridY(t.ticks, Y, P, W)
+    s += '<line x1="' + P.l + '" x2="' + (W - P.r) + '" y1="' + (H - P.b) + '" y2="' + (H - P.b) + '" stroke="var(--axis)" stroke-width="1"/>'
+    var every = Math.max(1, Math.ceil(n / Math.max(3, Math.floor((W - P.l - P.r) / 52))))
+    pts.forEach(function (p, i) {
+      var keep = i === n - 1 || i === hN - 1 || (i % every === 0 && n - 1 - i >= every && Math.abs(i - (hN - 1)) >= every)
+      if (!keep) return
+      s += '<text x="' + p.x.toFixed(1) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="11" fill="var(--label-3)">' + esc(p.lab) + '</text>'
+    })
+    if (hN && n > hN) {   // band + dashed path start at the last real session
+      var top = [], bot = []
+      top.push(pts[hN - 1].x.toFixed(1) + ',' + pts[hN - 1].y.toFixed(1)); bot.push(top[0])
+      for (var i = hN; i < n; i++) { top.push(pts[i].x.toFixed(1) + ',' + Y(pts[i].hi).toFixed(1)); bot.unshift(pts[i].x.toFixed(1) + ',' + Y(pts[i].lo).toFixed(1)) }
+      s += '<polygon points="' + top.concat(bot).join(' ') + '" fill="var(--band)"/>'
+      s += '<polyline points="' + pts.slice(hN - 1).map(function (p) { return p.x.toFixed(1) + ',' + p.y.toFixed(1) }).join(' ') + '" fill="none" stroke="var(--series)" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round" stroke-linejoin="round"/>'
+    }
+    if (hN > 1) s += '<polyline points="' + pts.slice(0, hN).map(function (p) { return p.x.toFixed(1) + ',' + p.y.toFixed(1) }).join(' ') + '" fill="none" stroke="var(--series)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
+    pts.forEach(function (p, i) {
+      if (p.kind === 'h') s += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="4" fill="var(--series)" stroke="var(--ring)" stroke-width="2"/>'
+      else s += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="3.5" fill="var(--ring)" stroke="var(--series)" stroke-width="2"/>'
+      s += '<circle class="hot" data-i="' + i + '" cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="7" fill="none" stroke="var(--series)" stroke-width="2" style="opacity:0"/>'
+    })
+    // direct labels: the latest real value and the last projected one
+    function endLabel(p, anchor) {
+      return '<text x="' + p.x.toFixed(1) + '" y="' + (p.y - 12).toFixed(1) + '" text-anchor="' + anchor + '" font-size="12" font-weight="600" fill="var(--label)">' + esc(fmt1(p.y0)) + '</text>'
+    }
+    if (hN) s += endLabel(pts[hN - 1], hN - 1 === 0 && n > 1 ? 'start' : 'middle')
+    if (n > hN) s += endLabel(pts[n - 1], 'end')
+    s += '<line class="xhair" x1="0" x2="0" y1="' + P.t + '" y2="' + (H - P.b) + '" stroke="var(--label-3)" stroke-width="1" style="opacity:0"/></svg>'
+    el.innerHTML = s
+    hover(el, pts)
+  }
+
+  /** Columns of one series with optional goal line; value labels only on the last and the max. */
+  function columnChart(el, opt) {
+    var bars = opt.bars, W = Math.max(280, el.clientWidth || 560), H = opt.height || 190, P = { l: 36, r: 12, t: 22, b: 28 }
+    var vals = bars.map(function (b) { return b.value || 0 })
+    var maxV = Math.max.apply(null, vals.concat([opt.goal || 0, opt.min || 1]))
+    var t = niceTicks(0, maxV, 4, opt.integer)
+    function Y(v) { return P.t + (1 - v / t.hi) * (H - P.t - P.b) }
+    var band = (W - P.l - P.r) / bars.length, bw = Math.min(24, band * 0.62), r = 4
+    var s = svgEl(W, H, opt.label) + gridY(t.ticks, Y, P, W)
+    var pts = [], maxI = vals.indexOf(Math.max.apply(null, vals))
+    bars.forEach(function (b, i) {
+      var v = b.value || 0, cx = P.l + band * i + band / 2, x = cx - bw / 2, y = Y(v), base = Y(0)
+      if (v > 0) {
+        var rr = Math.min(r, (base - y), bw / 2)
+        s += '<path d="M' + x.toFixed(1) + ',' + base + ' L' + x.toFixed(1) + ',' + (y + rr).toFixed(1) +
+          ' Q' + x.toFixed(1) + ',' + y.toFixed(1) + ' ' + (x + rr).toFixed(1) + ',' + y.toFixed(1) +
+          ' L' + (x + bw - rr).toFixed(1) + ',' + y.toFixed(1) + ' Q' + (x + bw).toFixed(1) + ',' + y.toFixed(1) + ' ' + (x + bw).toFixed(1) + ',' + (y + rr).toFixed(1) +
+          ' L' + (x + bw).toFixed(1) + ',' + base + ' Z" fill="' + opt.color + '"' + (b.dim ? ' opacity=".45"' : '') + '/>'
+        s += '<rect class="hot" data-i="' + i + '" x="' + (x - 3).toFixed(1) + '" y="' + (y - 3).toFixed(1) + '" width="' + (bw + 6).toFixed(1) + '" height="' + (base - y + 3).toFixed(1) + '" rx="5" fill="none" stroke="var(--label-3)" stroke-width="1" style="opacity:0"/>'
+      }
+      if (v > 0 && (i === bars.length - 1 || i === maxI)) {
+        s += '<text x="' + cx.toFixed(1) + '" y="' + (y - 6).toFixed(1) + '" text-anchor="middle" font-size="11" font-weight="600" fill="var(--label)">' + esc(opt.fmt(v)) + '</text>'
+      }
+      var every = Math.max(1, Math.ceil(bars.length / Math.floor((W - P.l - P.r) / 44))), lastI = bars.length - 1
+      if (i === lastI || (i % every === 0 && lastI - i >= every)) s += '<text x="' + cx.toFixed(1) + '" y="' + (H - 9) + '" text-anchor="middle" font-size="11" fill="var(--label-3)">' + esc(b.label) + '</text>'
+      pts.push({ x: cx, y: Math.min(y, base - 4), value: opt.fmt(v), lines: b.lines })
+    })
+    s += '<line x1="' + P.l + '" x2="' + (W - P.r) + '" y1="' + Y(0) + '" y2="' + Y(0) + '" stroke="var(--axis)" stroke-width="1"/>'
+    if (opt.goal) {
+      var gy = Y(opt.goal).toFixed(1)
+      s += '<line x1="' + P.l + '" x2="' + (W - P.r) + '" y1="' + gy + '" y2="' + gy + '" stroke="var(--label-3)" stroke-width="1.5" stroke-dasharray="5 4"/>' +
+        '<text x="' + (W - P.r) + '" y="' + (gy - 6) + '" text-anchor="end" font-size="11" fill="var(--label-2)">meta ' + esc(opt.fmt(opt.goal)) + '</text>'
+    }
+    s += '</svg>'
+    el.innerHTML = s
+    hover(el, pts)
+  }
+
+  // ------------------------------------------------------------ view: Evolução
+  var STATUS = { pr: ['good', 'Recorde'], stalled: ['warn', 'Estagnado'], ok: ['', 'Em progresso'], 'new': ['', 'Começando'] }
+  function viewEvolucao() {
+    var list = exercisesAt(S.local)
+    if (!list.length) return '<div class="empty"><strong>Nada para mostrar em ' + esc(S.local) + '.</strong>Registre um treino ou adicione exercícios na aba Exercícios.</div>'
+    var cur = null
+    list.forEach(function (x) { if (x.row.key === S.exKey) cur = x })
+    if (!cur) list.forEach(function (x) { if (!cur && x.treino === S.treino) cur = x })
+    cur = cur || list[0]
+    var m = model(cur.row, S.local), u = cur.row.unidade
+    var groups = {}, order = []
+    list.forEach(function (x) { if (!groups[x.treino]) { groups[x.treino] = []; order.push(x.treino) } groups[x.treino].push(x) })
+    var options = order.map(function (g) {
+      return '<optgroup label="' + esc(g) + '">' + groups[g].map(function (x) {
+        return '<option value="' + esc(x.row.key) + '"' + (x.row.key === cur.row.key ? ' selected' : '') + '>' + esc(x.row.exercicio) + '</option>'
+      }).join('') + '</optgroup>'
+    }).join('')
+    var picker = '<label class="fld">Exercício<select id="exSelect">' + options + '</select></label>'
+    if (!m.sessions.length) {
+      return '<div class="stack"><div class="sec-h"><h2>Evolução</h2><p class="sub">' + esc(S.local) + '</p></div>' + picker +
+        '<div class="empty"><strong>Sem registros de ' + esc(cur.row.exercicio) + ' em ' + esc(S.local) + '.</strong>' +
+        (m.ref ? 'Em ' + esc(m.ref.local) + ' a última marca foi ' + esc(load(m.ref.top.carga, m.ref.unidade)) + ' × ' + m.ref.top.reps + ', mas as máquinas são diferentes. ' : '') +
+        'O primeiro treino aqui vira a base do gráfico.</div></div>'
+    }
+    var last = m.sessions[m.sessions.length - 1]
+    var best = m.sessions.reduce(function (a, s) { return s.top.est != null && (!a || s.top.est > a.top.est) ? s : a }, null)
+    var st = STATUS[m.status] || STATUS.ok
+    var end = m.sim[m.sim.length - 1]
+    var gainPct = end && last.top.est ? Math.round((end.est / last.top.est - 1) * 1000) / 10 : 0
+    charts.push({ id: 'ch-evo', draw: function (el) { evoChart(el, m) } })
+    var simRows = m.sim.map(function (p) {
+      return '<tr><td>+' + p.step + '</td><td>' + esc(load(p.carga, u)) + ' × ' + p.reps + (p.rir ? ' · RIR ' + p.rir : '') + '</td><td class="num">' + esc(fmt1(p.est)) + '</td></tr>'
+    }).join('')
+    var histRows = m.sessions.slice().reverse().map(function (s) {
+      return '<tr><td>' + esc(fmtDay(s.date)) + (s.baseline ? ' <span class="muted">· inicial</span>' : '') + '</td><td>' + esc(load(s.top.carga, u)) + ' × ' + s.top.reps +
+        (S.countRIR && s.top.rir != null ? ' · RIR ' + s.top.rir : '') + '</td><td class="num">' + (s.top.est != null ? esc(fmt1(s.top.est)) : '—') + '</td><td class="num">' + s.sets.length + '</td><td class="num">' + esc(fmt(s.tonnage)) + '</td></tr>'
+    }).join('')
+    return '<div class="stack">' +
+      '<div class="sec-h"><h2>Evolução</h2><p class="sub">' + esc(S.local) + (cur.row.local === 'Ambos' ? ' + outro local (mesmo equipamento)' : '') + '</p></div>' + picker +
+      '<div class="stats">' +
+      '<div class="stat"><div class="l">1RM estimado</div><div class="v">' + esc(fmt1(last.top.est)) + ' <small>' + esc(E.unitLabel(u, 2)) + '</small></div><div class="d">de ' + esc(load(last.top.carga, u)) + ' × ' + last.top.reps + '</div></div>' +
+      '<div class="stat"><div class="l">Melhor marca</div><div class="v">' + esc(fmt1(best.top.est)) + ' <small>' + esc(E.unitLabel(u, 2)) + '</small></div><div class="d">' + esc(fmtDay(best.date)) + '</div></div>' +
+      '<div class="stat"><div class="l">Em 6 sessões</div><div class="v">' + (end ? esc(fmt1(end.est)) + ' <small>' + esc(E.unitLabel(u, 2)) + '</small>' : '—') + '</div><div class="d">' + (end ? '+' + esc(fmt(gainPct)) + '% se bater os alvos' : '') + '</div></div>' +
+      '<div class="stat"><div class="l">Situação</div><div class="v"><span class="pill ' + st[0] + '">' + st[1] + '</span></div><div class="d">' + plural(m.sessions.length, 'sessão', 'sessões') + '</div></div>' +
+      '</div>' +
+      '<section class="panel"><div class="panel-h"><h3>1RM estimado (' + esc(E.unitLabel(u, 2)) + ')</h3><span class="sub">Epley' + (S.countRIR ? ', somando o RIR' : '') + '</span></div>' +
+      '<div class="chart" id="ch-evo"></div>' +
+      '<div class="legend"><span class="key"><i></i>Histórico</span><span class="key"><i class="dash"></i>Projeção se bater os alvos</span><span class="key"><i class="band"></i>±1% por sessão</span></div></section>' +
+      '<div class="tbl"><table><caption>Próximas sessões</caption><thead><tr><th>Sessão</th><th>Alvo</th><th class="num">1RM est.</th></tr></thead><tbody>' + simRows + '</tbody></table></div>' +
+      '<div class="tbl"><table><caption>Histórico</caption><thead><tr><th>Data</th><th>Melhor série</th><th class="num">1RM est.</th><th class="num">Séries</th><th class="num">Volume</th></tr></thead><tbody>' + histRows + '</tbody></table></div>' +
+      '</div>'
+  }
+
+  // ------------------------------------------------------------ view: Volume
+  function viewVolume() {
+    var weeks = E.weeklyVolume(D.sets, D.plan, S.local, { countRIR: S.countRIR, today: D.today }, 8)
+    var total = weeks.reduce(function (a, w) { return a + w.total }, 0)
+    var head = '<div class="sec-h"><h2>Volume semanal</h2><p class="sub">' + esc(S.local) + ' · séries duras ' + (S.countRIR ? '(RIR ≤ 3)' : '(todas as séries)') + '</p></div>'
+    if (!total) {
+      return '<div class="stack">' + head + '<div class="empty"><strong>Nenhuma série nas últimas 8 semanas em ' + esc(S.local) + '.</strong>As marcas iniciais servem só de ponto de partida e não entram aqui. Registre o primeiro treino na aba Treino e o volume aparece por semana e por grupo muscular.</div></div>'
+    }
+    var cur = weeks[weeks.length - 1]
+    charts.push({ id: 'ch-vol', draw: function (el) {
+      columnChart(el, { label: 'Séries duras por semana', color: 'var(--series)', integer: true, min: 4, fmt: function (v) { return String(v) },
+        bars: weeks.map(function (w) {
+          return { label: fmtDay(w.start), value: w.total, lines: ['Semana de ' + fmtDay(w.start), plural(w.sets, 'série registrada', 'séries registradas')] }
+        }) })
+    } })
+    var groups = {}
+    D.plan.forEach(function (p) { if (p.local === S.local || p.local === 'Ambos') groups[p.grupo] = true })
+    weeks.forEach(function (w) { Object.keys(w.byGroup).forEach(function (g) { groups[g] = true }) })
+    var names = Object.keys(groups).sort(function (a, b) { return (cur.byGroup[b] || 0) - (cur.byGroup[a] || 0) || a.localeCompare(b, 'pt-BR') })
+    var maxG = Math.max(1, Math.max.apply(null, names.map(function (g) { return Math.max.apply(null, weeks.map(function (w) { return w.byGroup[g] || 0 })) })))
+    var rows = names.map(function (g) {
+      var series = weeks.map(function (w) { return w.byGroup[g] || 0 }), n = cur.byGroup[g] || 0
+      var bw = 96 / series.length
+      var mini = '<svg class="mini" viewBox="0 0 96 24" aria-hidden="true">' + series.map(function (v, i) {
+        var h = v ? Math.max(2, v / maxG * 22) : 0
+        return h ? '<rect x="' + (i * bw + 1).toFixed(1) + '" y="' + (24 - h).toFixed(1) + '" width="' + (bw - 2).toFixed(1) + '" height="' + h.toFixed(1) + '" rx="1.5" fill="var(--series)"' + (i === series.length - 1 ? '' : ' opacity=".5"') + '/>' : ''
+      }).join('') + '</svg>'
+      return '<div class="grp"><span>' + esc(g) + '</span><span class="hbar" aria-hidden="true"><i style="width:' + Math.round(n / maxG * 100) + '%"></i></span><span class="n">' + n + '</span>' + mini + '</div>'
+    }).join('')
+    return '<div class="stack">' + head +
+      '<div class="stats"><div class="stat"><div class="l">Esta semana</div><div class="v">' + cur.total + ' <small>' + (cur.total === 1 ? 'série dura' : 'séries duras') + '</small></div><div class="d">desde ' + esc(fmtDay(cur.start)) + '</div></div>' +
+      '<div class="stat"><div class="l">Média de 8 semanas</div><div class="v">' + esc(fmt1(total / weeks.length)) + ' <small>por semana</small></div><div class="d">' + plural(total, 'série dura', 'séries duras') + ' no total</div></div></div>' +
+      '<section class="panel"><div class="panel-h"><h3>Séries duras por semana</h3><span class="sub">início da semana</span></div><div class="chart" id="ch-vol"></div></section>' +
+      '<section class="panel flush"><div class="panel-h"><h3>Por grupo muscular</h3><span class="sub">esta semana · 8 semanas</span></div>' + rows + '</section></div>'
+  }
+
+  // ------------------------------------------------------------ view: Diário
+  function viewDiario() {
+    var today = null
+    D.days.forEach(function (d) { if (d.date === D.today) today = d })
+    var agua = today && today.agua || 0, goal = +S.waterGoal || 4
+    var last14 = []
+    for (var i = 13; i >= 0; i--) {
+      var iso = E.addDays(D.today, -i), d = null
+      D.days.forEach(function (x) { if (x.date === iso) d = x })
+      last14.push({ iso: iso, d: d })
+    }
+    var anyWater = last14.some(function (x) { return x.d && x.d.agua })
+    if (anyWater) charts.push({ id: 'ch-agua', draw: function (el) {
+      columnChart(el, { label: 'Água por dia, últimos 14 dias', color: 'var(--water)', goal: goal,
+        fmt: function (v) { return fmt(v) + ' L' },
+        bars: last14.map(function (x) { return { label: fmtDay(x.iso), value: x.d && x.d.agua || 0, lines: [fmtDayLong(x.iso)] } }) })
+    } })
+    var withProt = D.days.filter(function (d) { return d.prot != null }).slice(-7)
+    var avgProt = withProt.length ? withProt.reduce(function (a, d) { return a + d.prot }, 0) / withProt.length : null
+    var pesos = D.days.filter(function (d) { return d.peso != null })
+    var recent = D.days.slice(-10).reverse().map(function (d) {
+      var meals = Object.keys(MEALS).filter(function (k) { return d.meals[k] }).map(function (k) { return MEALS[k] + ': ' + d.meals[k] })
+      var nums = [d.agua != null ? fmt(d.agua) + ' L' : '', d.prot != null ? fmt(d.prot) + ' g prot.' : '', d.kcal != null ? fmt(d.kcal) + ' kcal' : '', d.peso != null ? fmt(d.peso) + ' kg' : '', d.sono != null ? fmt(d.sono) + ' h sono' : ''].filter(Boolean).join(' · ')
+      return '<div class="day"><div class="day-h"><span>' + esc(fmtDayLong(d.date)) + '</span><span>' + esc(nums) + '</span></div>' +
+        meals.map(function (t) { return '<p>' + esc(t) + '</p>' }).join('') + (d.obs ? '<p>' + esc(d.obs) + '</p>' : '') + '</div>'
+    }).join('')
+    var offline = !live.mcp || S.conn === 'offline' || S.conn === 'nosheet'
+    return '<div class="stack">' +
+      '<div class="sec-h"><h2>Diário</h2><p class="sub">' + esc(fmtDayLong(D.today)) + '</p></div>' +
+      '<section class="panel"><div class="panel-h"><h3>Água hoje</h3><span class="sub">meta ' + esc(fmt(goal)) + ' L · muda em Ajustes</span></div>' +
+      '<div class="big">' + esc(fmt(agua)) + ' <small>de ' + esc(fmt(goal)) + ' L</small></div>' +
+      '<div class="meter" role="progressbar" aria-label="Água hoje" aria-valuemin="0" aria-valuemax="' + goal + '" aria-valuenow="' + agua + '"><i style="width:' + Math.min(100, Math.round(agua / goal * 100)) + '%"></i></div>' +
+      '<div class="btns"><button class="btn" type="button" data-action="water" data-value="0.25">+250 ml</button><button class="btn" type="button" data-action="water" data-value="0.5">+500 ml</button><button class="btn" type="button" data-action="water" data-value="1">+1 L</button></div>' +
+      (offline ? '<p class="hint">Sem conexão com a planilha aqui: os botões copiam a linha para colar.</p>' : '') + '</section>' +
+      '<form class="panel" data-form="meal" novalidate><div class="panel-h"><h3>O que você comeu</h3></div><div class="fields">' +
+      '<label class="fld">Refeição<select id="m-tipo">' + Object.keys(MEALS).map(function (k) { return '<option value="' + k + '">' + MEALS[k] + '</option>' }).join('') + '</select></label>' +
+      '<label class="fld wide">Descrição<input id="m-texto" autocomplete="off" placeholder="ex.: arroz, feijão e frango"></label>' +
+      '<label class="fld">Calorias (kcal)<input id="m-kcal" inputmode="decimal" autocomplete="off" placeholder="opcional"></label>' +
+      '<label class="fld">Proteína (g)<input id="m-prot" inputmode="decimal" autocomplete="off" placeholder="opcional"></label>' +
+      '</div><div class="btns"><button class="btn primary" type="submit">' + (offline ? 'Copiar linha' : 'Salvar refeição') + '</button></div></form>' +
+      '<form class="panel" data-form="body" novalidate><div class="panel-h"><h3>Peso e sono</h3><span class="sub">opcional</span></div><div class="fields">' +
+      '<label class="fld">Peso (kg)<input id="b-peso" inputmode="decimal" autocomplete="off"></label>' +
+      '<label class="fld">Sono (h)<input id="b-sono" inputmode="decimal" autocomplete="off"></label>' +
+      '</div><div class="btns"><button class="btn" type="submit">' + (offline ? 'Copiar linha' : 'Salvar') + '</button></div></form>' +
+      '<div class="stats">' +
+      '<div class="stat"><div class="l">Proteína hoje</div><div class="v">' + (today && today.prot != null ? esc(fmt(today.prot)) + ' <small>g</small>' : '—') + '</div><div class="d">' + (avgProt != null ? 'média ' + esc(fmt(Math.round(avgProt))) + ' g em ' + plural(withProt.length, 'dia', 'dias') : 'sem registro') + '</div></div>' +
+      '<div class="stat"><div class="l">Calorias hoje</div><div class="v">' + (today && today.kcal != null ? esc(fmt(today.kcal)) : '—') + '</div><div class="d">kcal</div></div>' +
+      '<div class="stat"><div class="l">Peso</div><div class="v">' + (pesos.length ? esc(fmt(pesos[pesos.length - 1].peso)) + ' <small>kg</small>' : '—') + '</div><div class="d">' + (pesos.length ? esc(fmtDay(pesos[pesos.length - 1].date)) : 'sem registro') + '</div></div>' +
+      '</div>' +
+      (anyWater ? '<section class="panel"><div class="panel-h"><h3>Água por dia</h3><span class="sub">últimos 14 dias</span></div><div class="chart" id="ch-agua"></div><div class="legend"><span class="key"><i class="water"></i>Litros no dia</span><span class="key"><i class="goal"></i>Meta</span></div></section>' : '') +
+      (recent ? '<section class="panel flush"><div class="panel-h"><h3>Últimos dias</h3></div><div class="days">' + recent + '</div></section>'
+        : '<div class="empty"><strong>Nenhum dia registrado ainda.</strong>Use os botões de água e o formulário acima, ou preencha a aba Diário da planilha. Várias linhas no mesmo dia são somadas.</div>') +
+      '</div>'
+  }
+
+  // ------------------------------------------------------------ view: Ajustes
+  function viewAjustes() {
+    var id = sheetId()
+    return '<div class="stack"><div class="sec-h"><h2>Ajustes</h2></div>' +
+      '<form class="panel" data-form="ajustes" novalidate><div class="fields">' +
+      '<label class="fld">Meta de água (L)<input id="a-meta" inputmode="decimal" autocomplete="off" value="' + esc(fmt(+S.waterGoal || 4)) + '"></label>' +
+      '<label class="fld wide">Planilha (link ou ID)<input id="a-sheet" autocomplete="off" value="' + esc(id) + '"></label>' +
+      '</div><div class="btns"><button class="btn primary" type="submit">Salvar ajustes</button><button class="btn" type="button" data-action="refresh">Atualizar dados agora</button></div>' +
+      '<p class="hint">Os ajustes ficam só neste aparelho. Local e "Contar RIR" também são lembrados aqui.</p></form>' +
+      '<section class="panel"><div class="panel-h"><h3>Como as sugestões são calculadas</h3></div>' +
+      '<p class="about">1RM estimado pela fórmula de Epley: carga × (1 + reps/30), somando o RIR quando "Contar RIR" está ligado (RIR vazio conta como falha). ' +
+      'Dentro da faixa de reps, a sugestão mantém a carga e pede +1 rep. No topo da faixa, sobe a carga pelo 1RM com um ganho esperado de 0,25% a 2,5% por sessão, conforme a sua tendência. ' +
+      'Quando o próximo passo de carga é grande demais (comum em placas), pede reps antes de subir. Três sessões seguidas sem progresso levam a um deload de 10%. ' +
+      'Cada local tem a sua progressão, a não ser que o exercício esteja marcado como Ambos na planilha.</p></section>' +
+      '<section class="panel"><p class="about">Feito com base no openGym (github.com/alexpcosta/opengym), sob a licença AGPL-3.0. ' +
+      '<a href="https://github.com/alexpcosta/opengym" target="_blank" rel="noopener">Ver o projeto</a>.</p></section></div>'
+  }
+
+  // ------------------------------------------------------------ actions
+  var toastT = null
+  function toast(text, isError) {
+    var t = $('toast')
+    t.textContent = text
+    t.className = 'toast' + (isError ? ' error' : '')
+    t.hidden = false
+    clearTimeout(toastT)
+    toastT = setTimeout(function () { t.hidden = true }, isError ? 6000 : 3200)
+  }
+  function setLocal(v) {
+    if (LOCAIS.indexOf(v) < 0) return
+    S.local = v; store.set('local', v); S.open = null
+    render()
+  }
+  function serial() { return E.toSerial(D.today) }
+  function addWater(liters) {
+    appendRow('diario', [serial(), liters], '+' + (liters < 1 ? Math.round(liters * 1000) + ' ml' : fmt(liters) + ' L') + ' de água salvos no Diário')
+  }
+  function readNum(id) { var el = $(id); return el ? E.parseNum(el.value) : null }
+  function readStr(id) { var el = $(id); return el ? el.value.trim() : '' }
+
+  async function submitSerie(form) {
+    var key = form.dataset.key, row = rowByKey(key)
+    if (!row) return
+    var carga = readNum('f-carga'), reps = readNum('f-reps'), serie = readNum('f-serie')
+    var rir = S.countRIR ? readNum('f-rir') : null, obs = readStr('f-obs')
+    if (carga == null || carga < 0) S.formErr = 'Informe a carga (use vírgula ou ponto para decimais).'
+    else if (reps == null || reps < 1) S.formErr = 'Informe quantas reps você fez.'
+    else S.formErr = ''
+    S.form = { key: key, serie: serie || 1, carga: carga, reps: reps, rir: rir, obs: obs }
+    if (S.formErr) { renderView(); return }
+    var values = [serial(), S.local, S.treino, row.exercicio, serie || 1, carga, row.unidade, Math.round(reps), rir == null ? '' : rir, obs]
+    var ok = await appendRow('registros', values, 'Série ' + (serie || 1) + ' salva: ' + row.exercicio + ', ' + load(carga, row.unidade) + ' × ' + Math.round(reps))
+    if (ok) { openForm(key); renderView() }
+  }
+  async function submitMeal() {
+    var tipo = $('m-tipo').value, texto = readStr('m-texto'), kcal = readNum('m-kcal'), prot = readNum('m-prot')
+    if (!texto && kcal == null && prot == null) { toast('Escreva o que comeu ou informe calorias/proteína.', true); return }
+    var row = [serial(), '', '', '', '', '', '', kcal == null ? '' : kcal, prot == null ? '' : prot]
+    row[MEAL_COL[tipo] || 6] = texto
+    await appendRow('diario', row, MEALS[tipo] + ' salvo no Diário')
+  }
+  async function submitBody() {
+    var peso = readNum('b-peso'), sono = readNum('b-sono')
+    if (peso == null && sono == null) { toast('Informe o peso ou as horas de sono.', true); return }
+    await appendRow('diario', [serial(), '', '', '', '', '', '', '', '', peso == null ? '' : peso, sono == null ? '' : sono], 'Salvo no Diário')
+  }
+  function submitAjustes() {
+    var meta = readNum('a-meta'), id = idFromLink(readStr('a-sheet'))
+    if (meta > 0 && meta < 20) { S.waterGoal = meta; store.set('waterGoal', meta) }
+    var changed = id !== sheetId()
+    store.set('sheetId', id === SHEET_ID_BUILD ? '' : id)
+    toast('Ajustes salvos')
+    if (changed) { S.raw = snapshotRaw(); S.source = 'snapshot'; derive(); S.conn = 'connecting'; render(); if (live.mcp) watchAll(); else connect() }
+    else render()
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-action]')
+    if (!t) return
+    var a = t.dataset.action
+    if (a === 'local') setLocal(t.dataset.value)
+    else if (a === 'treino') { S.treino = t.dataset.value; S.open = null; renderView() }
+    else if (a === 'open-form') {
+      if (S.open === t.dataset.key) S.open = null; else openForm(t.dataset.key)
+      renderView()
+      var f = document.querySelector('form.log input#f-carga')
+      if (f && S.open) f.focus({ preventScroll: true })
+    }
+    else if (a === 'close-form') { S.open = null; S.formErr = ''; renderView() }
+    else if (a === 'step') stepField(t.dataset.field, +t.dataset.delta)
+    else if (a === 'water') addWater(+t.dataset.value)
+    else if (a === 'refresh') refresh()
+    else if (a === 'access') askAccess()
+  })
+  function stepField(field, delta) {
+    var row = S.form && rowByKey(S.form.key)
+    if (!row) return
+    var el = $('f-' + field), cur = el ? E.parseNum(el.value) : null
+    var step = field === 'carga' ? row.inc : 1
+    var next = Math.max(field === 'reps' || field === 'serie' ? 1 : 0, Math.round(((cur == null ? 0 : cur) + delta * step) * 100) / 100)
+    if (field === 'rir') next = Math.min(10, next)
+    S.form[field] = next
+    if (el) el.value = field === 'carga' ? fmt(next) : String(next)
+  }
+  document.addEventListener('input', function (e) {
+    var el = e.target
+    if (S.form && el.dataset && el.dataset.field) S.form[el.dataset.field] = el.dataset.field === 'obs' ? el.value : E.parseNum(el.value)
+  })
+  document.addEventListener('change', function (e) {
+    if (e.target.id === 'rirToggle') { S.countRIR = e.target.checked; store.set('countRIR', S.countRIR); if (S.form) S.form.rir = S.countRIR ? 0 : null; render() }
+    else if (e.target.id === 'exSelect') { S.exKey = e.target.value; store.set('exKey', S.exKey); renderView() }
+  })
+  document.addEventListener('submit', function (e) {
+    var form = e.target
+    e.preventDefault()
+    if (form.dataset.form === 'serie') submitSerie(form)
+    else if (form.dataset.form === 'meal') submitMeal()
+    else if (form.dataset.form === 'body') submitBody()
+    else if (form.dataset.form === 'ajustes') submitAjustes()
+  })
+  function viewFromHash() { var h = (location.hash || '').replace('#', ''); return VIEWS.indexOf(h) >= 0 ? h : 'treino' }
+  window.addEventListener('hashchange', function () { S.view = viewFromHash(); S.open = null; render(); window.scrollTo(0, 0) })
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && live.mcp && !live.watching) loadAll()
+    if (document.visibilityState === 'visible' && D && D.today !== E.todayISO()) { derive(); render() }
+  })
+
+  // ------------------------------------------------------------ boot
+  S.view = viewFromHash()
+  derive()
+  render()
+  connect()
+})()
+</script>

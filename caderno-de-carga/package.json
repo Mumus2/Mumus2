@@ -1,0 +1,11 @@
+{
+  "name": "caderno-de-carga",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Caderno de treino pesado com projeção de cargas (Campinas/SJC) ligado ao Google Planilhas. Baseado no openGym.",
+  "license": "AGPL-3.0-or-later",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "build": "node scripts/build.mjs --config local.json --out dist/caderno-de-carga.html"
+  }
+}
