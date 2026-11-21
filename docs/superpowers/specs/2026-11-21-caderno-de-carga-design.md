@@ -16,8 +16,11 @@ acontece em dois locais com máquinas diferentes: **Campinas** e **São José do
 - **Painel:** artefato no claude.ai que lê e grava na planilha pelo conector Google Sheets do
   próprio usuário (capability `mcp`: `get_values`, `append_values`).
 - **Base:** openGym (alexpcosta/opengym, AGPL-3.0). Reaproveita a lógica (dupla progressão,
-  1RM de Epley com teto de reps, deload de 10% após 3 estagnações, RIR por série) e o visual
-  estilo iOS. O código derivado fica sob AGPL-3.0.
+  1RM de Epley com teto de reps, deload de 10% após 3 estagnações, RIR por série) e a estrutura
+  das telas. O código derivado fica sob AGPL-3.0.
+- **Tema:** Ethereal (pedido depois da primeira versão, que usava o visual iOS do openGym): pérola e
+  névoa de magnésio, vidro fosco, Cormorant Garamond nos títulos, Manrope no resto; Campinas em
+  rosa-aurora e SJC em pervinca, nos dois temas (claro e escuro).
 - **iOS:** painel no app do Claude ou no Safari (tela de início) + Siri/Atalhos gravando na
   planilha por um Apps Script. Sem app nativo (exige Mac com Xcode).
 

@@ -2,7 +2,7 @@
 
 Caderno de treino pesado (5–8 reps perto da falha) ligado a uma planilha do Google. Ele mostra a carga e as reps sugeridas para o próximo treino, a evolução do 1RM estimado com projeção, o volume semanal e o diário de água e alimentação. Cada academia tem a sua progressão (Campinas e São José dos Campos), porque as máquinas são diferentes.
 
-Feito com base no [openGym](https://github.com/alexpcosta/opengym), de onde vêm a lógica de dupla progressão, o 1RM de Epley, o deload após estagnação, o RIR por série e o visual. Por isso o código desta pasta é distribuído sob a mesma licença, AGPL-3.0 (veja [LICENSE](LICENSE)).
+Feito com base no [openGym](https://github.com/alexpcosta/opengym), de onde vêm a lógica de dupla progressão, o 1RM de Epley, o deload após estagnação, o RIR por série e a estrutura das telas. O visual é o tema Ethereal: fundo pérola com névoa de magnésio (pêssego, lavanda e verde-água; aurora violeta à noite), cartões de vidro fosco, títulos em Cormorant Garamond e números em Manrope. Por isso o código desta pasta é distribuído sob a mesma licença, AGPL-3.0 (veja [LICENSE](LICENSE)).
 
 ## Como funciona
 
